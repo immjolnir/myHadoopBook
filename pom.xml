@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
@@ -8,24 +9,11 @@
     <name>Hadoop: The Definitive Guide, Example Code</name>
     <url>http://maven.apache.org</url>
     <modules>
-	    <!--<module>book</module>-->
-	    <!--<module>common</module>-->
-	    <module>ch02</module>
-	    <!--<module>ch03</module>-->
-	    <!--<module>ch04</module>-->
-	    <!--<module>ch04-avro</module>-->
-	    <!--<module>ch05</module>-->
-	    <!--<module>ch07</module>-->
-	    <!--<module>ch08</module>-->
-	    <!--<module>ch11</module>-->
-	    <!--<module>ch12</module>-->
-	    <!--<module>ch13</module>-->
-	    <!--<module>ch14</module>-->
-	    <!--<module>ch15</module>-->
-	    <!--<module>ch16</module>-->
-	    <!--<module>hadoop-examples</module>-->
-	    <!--<module>snippet</module>-->
+        <module>ch02</module>
+        <module>ch03</module>
+        <module>ch04</module>
     </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.hadoop</groupId>
@@ -77,6 +65,45 @@
                     <!--<meminitial>128m</meminitial>-->
                     <!--<maxmem>512m</maxmem>-->
                 </configuration>
+            </plugin>
+            <!--<plugin>                   &lt;!&ndash;javadoc tool is called&ndash;&gt;-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-source-plugin</artifactId>-->
+                <!--<version>2.2.1</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>jar-no-fork</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+            <!--<plugin>                   &lt;!&ndash;it will archive those java files to *source.jar&ndash;&gt;-->
+                <!--<groupId>org.apache.maven.plugins</groupId>-->
+                <!--<artifactId>maven-javadoc-plugin</artifactId>-->
+                <!--<version>2.9.1</version>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<goals>-->
+                            <!--<goal>jar</goal>-->
+                        <!--</goals>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
+            <plugin>
+                <!--https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html-->
+                <!--there are 3 lifecycles: clean, default and site. which are executed in the order given up to the point of the one specified.-->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>3.2</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <phase>site</phase>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

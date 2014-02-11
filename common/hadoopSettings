@@ -7,3 +7,10 @@
 3. mapred.job.name: set the user-specified job name
 	JobConf.java:
 		setJobName(String name); or set("mapred.job.name", jobName);
+4. In hadoop Streaming,
+	stream.map.output.fild.separator: set it as the field separator for the map outputs
+	stream.num.map.output.key.fields:  
+	"stream.reduce.output.field.separator=SEP" and "stream.num.reduce.output.fiels=NUM" to specify the nth field separator in a line of the reduce outputs as the separator between the key and the value.
+
+5. To generate gzip files as your generated ouptut, Pass 
+"mapred.output.compress=true" and "mapred.output.compression.codec=org.apache.hadoop.io.compress.GzipCode" as options to your streaming job.
