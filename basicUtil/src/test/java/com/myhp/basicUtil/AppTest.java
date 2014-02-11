@@ -1,4 +1,4 @@
-package com.myhp.ch02;
+package com.myhp.basicUtil;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

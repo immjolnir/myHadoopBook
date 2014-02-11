@@ -1,0 +1,9 @@
+1. mapred.job.queue.name: name of the queue
+	JobConf.java:
+		getQueueName(); get("mapred.job.queue.name", DEFAULT_QUEUE_NAME);
+		setQueueName(String queuename); set("mapred.job.queue.name", queueName);
+2. mapred.reduce.tasks: reduce instance number, suffle
+	
+3. mapred.job.name: set the user-specified job name
+	JobConf.java:
+		setJobName(String name); or set("mapred.job.name", jobName);

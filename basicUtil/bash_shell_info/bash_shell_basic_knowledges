@@ -1,0 +1,76 @@
+0> var=
+0> echo ${var=aa}被声明了，就不赋值了
+
+
+0> echo ${var:=aa} 虽然被声明了，但仍然是null值，依然赋值
+aa
+
+$ man bash
+Compound Commands
+ (list) list is executed in a subshell environment
+ { list; } list is simply executed in the current shell environment.
+
+    ${parameter:-word}
+              Use Default Values.  If parameter is unset or null, the expansion of word is substituted.  Otherwise, the value of parameter is sub‐
+              stituted.
+    ${parameter:=word}
+              Assign Default Values.  If parameter is unset or null, the expansion of word is assigned to parameter.  The value  of  parameter  is
+              then substituted.  Positional parameters and special parameters may not be assigned to in this way.
+		e.g
+		0> echo $var
+
+		0> echo ${var:-word} # not assigned
+		word
+		0> echo $var
+
+		0> echo ${var:=word}
+		word
+		0> echo $var # assigned
+		word
+
+		so the difference between the above command, it the assignment.
+
+    ${parameter:?word}
+              Display  Error  if  Null or Unset.  If parameter is null or unset, the expansion of word (or a message to that effect if word is not
+              present) is written to the standard error and the shell, if it is not interactive, exits.  Otherwise, the value of parameter is sub‐
+              stituted.
+		e.g
+		0> unset var
+		1> echo ${var:?not exist}
+		bash: var: not exist
+
+    ${parameter:+word}
+              Use Alternate Value.  If parameter is null or unset, nothing is substituted, otherwise the expansion of word is substituted.
+    ${parameter:offset}
+    ${parameter:offset:length}
+              Substring  Expansion.
+       ${!prefix*}
+       ${!prefix@}
+              Names matching prefix.  Expands to the names of variables whose names begin with prefix, separated by the first character of the IFS
+              special variable.  When @ is used and the expansion appears within double quotes, each variable name expands to a separate word.
+
+       ${!name[@]}
+       ${!name[*]}
+              List  of array keys.  If name is an array variable, expands to the list of array indices (keys) assigned in name.  If name is not an
+              array, expands to 0 if name is set and null otherwise.  When @ is used and the expansion appears  within  double  quotes,  each  key
+              expands to a separate word.
+       ${parameter/pattern/string}
+              Pattern  substitution.   The  pattern is expanded to produce a pattern just as in pathname expansion.  Parameter is expanded and the
+              longest match of pattern against its value is replaced with string.  If pattern begins with /, all matches of pattern  are  replaced
+              with  string.   Normally only the first match is replaced.  If pattern begins with #, it must match at the beginning of the expanded
+              value of parameter.  If pattern begins with %, it must match at the end of the expanded value of  parameter.   If  string  is  null,
+              matches  of  pattern  are deleted and the / following pattern may be omitted.  If parameter is @ or *, the substitution operation is
+              applied to each positional parameter in turn, and the expansion is the resultant list.  If  parameter  is  an  array  variable  sub‐
+              scripted  with @ or *, the substitution operation is applied to each member of the array in turn, and the expansion is the resultant
+              list.
+
+       ${parameter^pattern}
+       ${parameter^^pattern}
+       ${parameter,pattern}
+       ${parameter,,pattern}
+              Case modification.  This expansion modifies the case of alphabetic characters in parameter.  The pattern is expanded  to  produce  a
+              pattern just as in pathname expansion.  The ^ operator converts lowercase letters matching pattern to uppercase; the , operator con‐
+              verts matching uppercase letters to lowercase.  The ^^ and ,, expansions convert each matched character in the expanded value; the ^
+              and  ,  expansions match and convert only the first character in the expanded value.  If pattern is omitted, it is treated like a ?,
+              which matches every character.  If parameter is @ or *, the case modification operation is applied to each positional  parameter  in
+              turn,  and  the  expansion  is the resultant list.  If parameter is an array variable subscripted with @ or *, the case

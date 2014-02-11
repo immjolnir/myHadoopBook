@@ -1,0 +1,2 @@
+1. kill hadoop job:
+	hadoop job  -Dmapred.job.tracker=localhost:9001 -kill job_201402072146_0017
