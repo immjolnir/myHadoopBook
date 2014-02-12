@@ -1,0 +1,31 @@
+1. To skip the UT by add the property in pom.xml
+	    <properties>
+		<maven.test.skip>true</maven.test.skip>
+		<skipTests>true</skipTests>
+	    </properties>
+	when surefire:test {execution: default-test} invoked (surefire plugin not added)
+	or 
+	add below into pom.xml
+	  <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-surefire-plugin</artifactId>
+		<version>2.12.4</version>
+		<configuration>
+			<skipTests>true</skipTests>
+		</configuration>
+	    </plugin>
+
+2. maven scope:
+link: https://maven.apache.org/pom.html
+
+scope:
+	This element refers to the classpath of the task at hand (compiling and runtime, testing, etc.) as well as how to limit the transitivity of a dependency. There are five scopes available:
+
+    compile - this is the default scope, used if none is specified. Compile dependencies are available in all classpaths. Furthermore, those dependencies are propagated to dependent projects.
+    provided - this is much like compile, but indicates you expect the JDK or a container to provide it at runtime. It is only available on the compilation and test classpath, and is not transitive.
+    runtime - this scope indicates that the dependency is not required for compilation, but is for execution. It is in the runtime and test classpaths, but not the compile classpath.
+    test - this scope indicates that the dependency is not required for normal use of the application, and is only available for the test compilation and execution phases.
+    system - this scope is similar to provided except that you have to provide the JAR which contains it explicitly. The artifact is always available and is not looked up in a repository.
+
+systemPath:
+	is used only if the the dependency scope is system. Otherwise, the build will fail if this element is set. The path must be absolute, so it is recommended to use a property to specify the machine-specific path (more on properties below), such as ${java.home}/lib. Since it is assumed that system scope dependencies are installed a priori, Maven will not check the repositories for the project, but instead checks to ensure that the file exists. If not, Maven will fail the build and suggest that you download and install it manually.

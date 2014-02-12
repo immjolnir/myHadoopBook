@@ -1,0 +1,19 @@
+
+learn Reguar Express in java
+
+	1. http://www.javacodegeeks.com/2012/11/java-regular-expression-tutorial-with-examples.html
+	Java regular expressions are most similar to perl.
+
+	1.1. Pattern object is the compiled version of the regular expression. It doesn’t have any public constructor and we use it’s public static method compile to create the pattern object by passing regular expression argument.
+
+	1.2. Matcher is the regex engine object that matches the input String pattern with the pattern object created. This class doesn’t have any public construtor and we get a Matcher object using pattern object matcher method that takes the input String as argument. We then use matches method that returns boolean result based on input String matches the regex pattern or not.
+
+	Note, String class provides "match" method, when Pattern provides it.
+
+	2. http://www.vogella.com/tutorials/JavaRegularExpressions/article.html#string
+
+	3. Oracle Lesson: Regular Expressions
+    http://docs.oracle.com/javase/tutorial/essential/regex/
+
+
+

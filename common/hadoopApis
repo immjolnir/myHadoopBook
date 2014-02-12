@@ -1,0 +1,11 @@
+1. FileStatus, in ch03
+	Interface that represents the client side information for a file.
+
+2. FileUtil, org.apache.hadoop.fs
+	A collection of file-processing util methods
+	  public static Path[] stat2Paths(FileStatus[] stats): stats[i].getPath();
+	/** Copy files between FileSystems. */
+	  public static boolean copy(FileSystem srcFS, Path src, 
+				     FileSystem dstFS, Path dst, 
+				     boolean deleteSource,
+				     Configuration conf)

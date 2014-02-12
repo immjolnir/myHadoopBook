@@ -11,8 +11,9 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
+      <version>4.11</version>
+      <!--use its default scope: compile, because it is invoked by com.myhp.basicUtil.RegularExp.java-->
+      <!--<scope>test</scope>-->
     </dependency>
   </dependencies>
     <build>
@@ -24,6 +25,9 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
+                    <excludes>
+                        <exclude>**/myHashtable.java</exclude>
+                    </excludes>
                 </configuration>
             </plugin>
         </plugins>
