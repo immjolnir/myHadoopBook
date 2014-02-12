@@ -14,3 +14,13 @@
 
 5. To generate gzip files as your generated ouptut, Pass 
 "mapred.output.compress=true" and "mapred.output.compression.codec=org.apache.hadoop.io.compress.GzipCode" as options to your streaming job.
+
+6. io.file.buffer.size
+	hadoop always set it 4096 by default. org.apache.hadoop.fs.FileSystem.java
+	  /**
+	   * Opens an FSDataInputStream at the indicated Path.
+	   * @param f the file to open
+	   */
+	  public FSDataInputStream open(Path f) throws IOException {
+	    return open(f, getConf().getInt("io.file.buffer.size", 4096));
+	  }
