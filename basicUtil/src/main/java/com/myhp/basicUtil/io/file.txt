@@ -1,0 +1,61 @@
+Java IO: File
+http://tutorials.jenkov.com/java-io/file.html
+
+The File class in the Java IO API gives you access to the underlying file system. Using the File class you can:
+	Check if a file exists.
+	Read the length of a file.
+	Rename or move a file.
+	Delete a file.
+	Check if path is file or directory.
+	Read list of files in a directory.
+This text will tell you more about how.
+Note: The File only gives you access to the file and file system meta data. If you need to read or write the content of files, you should do so using either FileInputStream, FileOutputStream or RandomAccessFile.
+
+Instantiating a java.io.File
+Before you can do anything with the file system or File class, you must obtain a File instance. Here is how that is done:
+File file = new File("c:\\data\\input-file.txt");
+Simple, right? The File class also has a few other constructors you can use to instantiate File instances in different ways.
+
+Check if File Exists
+Once you have instantiated a File object you can check if the corresponding file actually exists already. The File class constructor will not fail if the file does not already exists. You might want to create it now, right?
+To check if the file exists, call the exists() method. Here is a simple example:
+File file = new File("c:\\data\\input-file.txt");
+
+boolean fileExists = file.exists();
+
+File Length
+To read the length of a file in bytes, call the length() method. Here is a simple example:
+File file = new File("c:\\data\\input-file.txt");
+
+long length = file.length();
+
+Rename or Move File
+To rename (or move) a file, call the method renameTo() on the File class. Here is a simple example:
+File file = new File("c:\\data\\input-file.txt");
+
+boolean success = file.renameTo(new File("c:\\data\\new-file.txt"));
+As briefly mentioned earlier, the renameTo() method can also be used to move a file to a different directory. The new file name passed to the renameTo() method does not have to be in the same directory as the file was already residing in.
+The renameTo() method returns boolean (true or false), indicating whether the renaming was successful. Renaming of moving a file may fail for various reasons, like the file being open, wrong file permissions etc.
+
+Delete File
+To delete a file call the delete() method. Here is a simple example:
+File file = new File("c:\\data\\input-file.txt");
+
+boolean success = file.delete();
+The delete() method returns boolean (true or false), indicating whether the deletion was successful. Deleting a file may fail for various reasons, like the file being open, wrong file permissions etc.
+
+Check if Path is File or Directory
+A File object can point to both a file or a directory.
+You can check if a File object points to a file or directory, by calling its isDirectory() method. This method returns true if the File points to a directory, and false if the File points to a file. Here is a simple example:
+File file = new File("c:\\data");
+
+boolean isDirectory = file.isDirectory();
+
+Read List of Files in Directory
+You can obtain a list of all the files in a directory by calling either the list() method or the listFiles() method. The list() method returns an array of String's with the file and / or directory names of directory the File object points to. The listFiles() returns an array of File objects representing the files and / or directories in the directory the File points to.
+Here is a simple example:
+File file = new File("c:\\data");
+
+String[] fileNames = file.list();
+
+File[]   files = file.listFiles();

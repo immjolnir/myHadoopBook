@@ -1,0 +1,14 @@
+Java IO: Input Parsing
+http://tutorials.jenkov.com/java-io/input-parsing.html
+
+Some of the classes in the Java IO API are designed to help you parse input. These classes are:
+PusbackInputStream
+
+StreamTokenizer
+
+PushbackReader
+
+LineNumberReader
+
+It is not the purpose of this text to give you a complete course in parsing of data. The purpose was rather to give you above quick list of classes related to parsing of input data.
+If you have to parse data you will often end up writing your own classes that use some of the classes in this list. I know I did when I wrote the parser for the Butterfly Container Script. I used the PushbackInputStream at the core of my parser, because sometimes I needed to read ahead a character or two, to determine what the character at hand meant.

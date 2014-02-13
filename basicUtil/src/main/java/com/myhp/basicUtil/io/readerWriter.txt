@@ -1,0 +1,246 @@
+Java IO: Readers and Writers
+
+http://tutorials.jenkov.com/java-io/readers-writers.html
+Java IO's Reader and Writer work much like the InputStream and OutputStream with the exception that Reader and Writer are character based. They are intended for reading and writing text. The InputStream and OutputStream were byte based, remember?
+
+1. Reader
+The Reader is the baseclass of all Reader's in the Java IO API. Subclasses include a BufferedReader, PushbackReader etc.
+Here is a simple example:
+    Reader reader = new FileReader();
+
+    int data = reader.read();
+    while(data != -1){
+        char dataChar = (char) data;
+        data = reader.read();
+    }
+Notice, that while an InputStream returns one byte at a time, meaning a value between -128 and 127, the Reader returns a char at a time, meaning a value between 0 and 65535. This does not necessarily mean that the Reader reads two bytes at a time from the source it is connected to. It may read one or more bytes at a time, depending on the encoding of the text being read.
+A Reader can be combined with an InputStream. If you have an InputStream and want to read characters from it, you can wrap it in an InputStreamReader. Pass the InputStream to the constructor of the InputStreamReader like this:
+Reader reader = new InputStreamReader(inputStream);
+In the constructor you can also specify what character set to use to decode the text etc. More on that in the text on InputStreamReader.
+
+2. Writer
+The Writer class is the baseclass of all Writer's in the Java IO API. Subclasses include BufferedWriter and PrintWriter among others.
+Here is a simple example:
+Writer writer = new FileWriter("c:\\data\\file-output.txt");
+
+writer.write("Hello World Writer");
+writer.close();
+A Writer can be combined with an OutputStream just like Readers and InputStream's. Wrap the OutputStream in an OutputStreamWriter and all characters written to the Writer are passed on to the OutputStream. Here is how that looks:
+Writer writer = new OutputStreamWriter(outputStream);
+
+Combining Readers and Writers
+Just like with streams, Reader's and Writer's can be combined into chains to achieve more interesting IO. It works just like combining the Reader with InputStream's or the Writer with OutputStream's. For instance, you can achieve buffering by wrapping a Reader in a BufferedReader, or a Writer in a BufferedWriter. Here are two such examples:
+Reader reader = new BufferedReader(new FileReader(...));
+
+Writer writer = new BufferedWriter(new FileWriter(...));
+
+3. InputStreamReader
+
+The InputStreamReader class is intended to wrap an InputStream, thereby turning the byte based input stream into a character based Reader.
+Table of contents:
+InputStreamReader Example
+read()
+Character Encoding Constructors
+InputStreamReader Example
+Here is a Java InputStreamReader example:
+InputStream inputStream = new FileInputStream("c:\\data\\input.txt");
+Reader      reader      = new InputStreamReader(inputStream);
+
+int data = reader.read();
+while(data != -1){
+    char theChar = (char) data;
+    data = reader.read();
+}
+
+reader.close();    
+Note: The proper exception handling has been skipped here for the sake of clarity. To learn more about correct exception handling, go to Java IO Exception Handling.
+read()
+The read() method of an InputStreamReader returns an int which contains the char value of the char read. Here is an InputStreamReader read() example:
+int data = reader.read();
+You can case the returned int to a char like this:
+char aChar = (char) data;
+End of Stream
+If the read() method returns -1, the end of stream has been reached, meaning there is no more data to read in the InputStreamReader. That is, -1 as int value, not -1 as byte or short value. There is a difference here!
+When the end of stream has been reached, you can close the InputStreamReader.
+Character Encoding Constructors
+The InputStreamReader also has alternative constructors that allow you to specify the character set (ISO-Latin1, UTF-8, UTF-16 etc.) to use to interpret the bytes in the underlying InputStream.
+Here is an InputStreamReader example that specifies a character encoding to the constructor:
+InputStream inputStream = new FileInputStream("c:\\data\\input.txt");
+Reader      reader      = new InputStreamReader(inputStream, "UTF-8");
+Notice the second parameter to the InputStreamReader constructor. This InputStreamReader will now interpret the bytes from the underlying InputStream as UTF-8 encoded characters.
+
+4. OutputStreamWriter
+
+The OutputStreamWriter class is intended to wrap an OutputStream, thereby turning the byte based output stream into a character based Writer.
+Here is a simple example:
+OutputStream outputStream = new FileOutputStream("c:\\data\\output.txt");
+Writer       writer       = new OutputStreamWriter(outputStream);
+
+writer.write("Hello World");
+
+writer.close();
+Note: The proper exception handling has been skipped here for the sake of clarity. To learn more about correct exception handling, go to Java IO Exception Handling.
+The OutputStreamWriter also has alternative constructors that allow you to specify the character set (ISO-Latin1, UTF-8, UTF-16 etc.) to use to convert the written characaters to the bytes written to the underlying OutputStream.
+
+5. FileReader
+
+The FileReader class makes it possible to read the contents of a file as a stream of characters. It works much like the FileInputStream except the FileInputStream reads bytes, whereas the FileReader reads characters. The FileReader is intended to read text, in other words. One character may correspond to one or more bytes depending on the character encoding scheme.
+Here is a simple example:
+Reader reader = new FileReader("c:\\data\\input-text.txt");
+
+int data = reader.read();
+while(data != -1) {
+  //do something with data...
+  doSomethingWithData(data);
+
+  data = reader.read();
+}
+reader.close();
+Note: The proper exception handling has been skipped here for the sake of clarity. To learn more about correct exception handling, go to Java IO Exception Handling.
+The read() method of a FileReader returns an int which contains the char value of the character read. If the read() method returns -1, there is no more data to read in the FileReader, and it can be closed. That is, -1 as int value, not -1 as byte value. There is a difference here!
+The FileReader has other constructors too, letting you specify the file to be read in different ways. Look in the official JavaDoc for more detailed info.
+
+FileReader Character Encoding
+The FileReader assumes that you want to decode the bytes in the file using the default character encoding for the computer your application is running on. This may not always be what you want, and you cannot change it!
+If you want to specify a different character decoding scheme, don't use a FileReader. Use an InputStreamReader on a FileInputStream instead. The InputStreamReader lets you specify the character encoding scheme to use when reading the bytes in the underlying file.
+
+6. FileWriter
+
+The FileWriter class makes it possible to write a file as a stream of characters. In that respect it works much like the FileOutputStream except that a FileOutputStream is byte based, whereas a FileWriter is character based. The FileWriter is intended to write text, in other words. One character may correspond to one or more bytes, depending on the character encoding scheme in use.
+Here is a simple example:
+Writer writer = new FileWriter("c:\\data\\output.txt");
+
+while(moreData) {
+  String data = getMoreData();
+  write.write(data);
+}
+writer.close();
+Note: The proper exception handling has been skipped here for the sake of clarity. To learn more about correct exception handling, go to Java IO Exception Handling.
+The FileWriter has other constructors too, letting you specify the file to write to in different ways. Look in the official JavaDoc for more detailed info.
+Overwriting vs. Appending the File
+When you create a FileWriter you can decide if you want to overwrite any existing file with the same name, or if you want to append to any existing file. You decide that via your choice of constructor.
+The contructor taking just one parameter, the file name, will overwrite any existing file:
+Writer writer = new FileWriter("c:\\data\\output.txt");
+There is a constructor that takes 2 parameters too: The file name and a boolean. The boolean indicates whether to append or overwrite an existing file. Here are two examples:
+Writer writer = new FileWriter("c:\\data\\output.txt", true);  //appends to file
+
+Writer writer = new FileWriter("c:\\data\\output.txt", false); //overwrites file
+FileWriter Character Encoding
+The FileWriter assumes that you want to encode the bytes to the file using the default character encoding for the computer your application is running on. This may not always be what you want, and you cannot change it!
+If you want to specify a different character encoding scheme, don't use a FileWriter. Use an OutputStreamWriter on a FileOutputStream instead. The OutputStreamWriter lets you specify the character encoding scheme to use when writing bytes to the underlying file.
+
+7. PushbackReader
+
+The PushbackReader is intendended to be used when you parse data from a Reader. Sometimes you need to read ahead a few characters to see what is coming, before you can determine how to interprete the current character. The PushbackReader allows you to do that. Well, actually it allows you to push back the read characters into the Reader. These characters will then be read again the next time you call read().
+The PushbackReader works much like the PushbackInputStream except that the PushbackReader works on characters, whereas the PushbackInputStream works on bytes.
+Here is a simple example:
+PushbackReader reader = new PushbackReader(
+                                new FileReader("c:\\data\\input.txt"));
+
+int data = reader.read();
+
+reader.unread(data);
+You can set the number of characters you should be able to unread in the constructor of the PushbackReader. Here is how that is done:
+PushbackReader reader = new PushbackReader(
+                                new FileReader("c:\\data\\input.txt"),
+                                8);
+This example sets an internal buffer of 8 characters. That means you can unread at most 8 characters at a time, before reading them again
+
+8. LineNumberReader
+
+The LineNumberReader class is a BufferedReader that keeps track of line numbers of the read characters. Line numbering begins at 0. Whenever the LineNumberReader encounters a line terminator in the characters returned by the wrapped Reader, the line number is incremented.
+You can get the current line number by calling the getLineNumber() method. You can also set the current line number, should you need to, by calling the setLineNumber() method.
+Here is a simple example:
+LineNumberReader reader = new LineNumberReader(
+                            new FileReader("c:\\data\\input.txt"));
+
+int data = reader.read();
+while(data != -1){
+    char dataChar = (char) data;
+    data = reader.read();
+    int lineNumber = reader.getLineNumber();
+}
+
+Line Numbers in Parsing
+Line number can be handy if you are parsing a text file that can contain errors. When reporting the error to the user, it is easier to correct the error if your error message includes the line number where the error was encountered.
+
+9. StreamTokenizer
+
+The StreamTokenizer class can tokenize a Reader into tokens. For instance, in the string "Mary had a little lamb" each word is a separate token.
+When you are parsing files or computer languages it is normal to break the input into tokens, before further processing them. This process is also called "lexing".
+You move through the tokens in the underlying Reader by calling the nextToken() method in a loop. After each call to nextToken() the StreamTokenizer has several fields you can read to see what kind of token was read, it's value etc. These fields are:
+ttype	The type of token read (word, number, end of line)
+sval	The string value of the token, if the token was a string (word)
+nval	The number value of the token, if the token was a number.
+Here is a simple example:
+StreamTokenizer tokenizer = new StreamTokenizer(
+        new StringReader("Mary had 1 little lamb..."));
+
+while(tokenizer.nextToken() != StreamTokenizer.TT_EOF){
+
+    if(tokenizer.ttype == StreamTokenizer.TT_WORD) {
+        System.out.println(tokenizer.sval);
+    } else if(tokenizer.ttype == StreamTokenizer.TT_NUMBER) {
+        System.out.println(tokenizer.nval);
+    } else if(tokenizer.ttype == StreamTokenizer.TT_EOL) {
+        System.out.println();
+    }
+
+}
+The StreamTokenizer is capable of recognizing identifiers, numbers, quoted strings, and various comment styles. You can also specify what characters are to be interpreted as white space, comment begin, end etc. All these things are configured on the StreamTokenizer before you start parsing its contents. See the JavaDoc for more information about that.
+
+http://docs.oracle.com/javase/7/docs/api/java/io/StreamTokenizer.html
+public class StreamTokenizer
+extends Object
+The StreamTokenizer class takes an input stream and parses it into "tokens", allowing the tokens to be read one at a time. The parsing process is controlled by a table and a number of flags that can be set to various states. The stream tokenizer can recognize identifiers, numbers, quoted strings, and various comment styles.
+Each byte read from the input stream is regarded as a character in the range '\u0000' through '\u00FF'. The character value is used to look up five possible attributes of the character: white space, alphabetic, numeric, string quote, and comment character. Each character can have zero or more of these attributes.
+
+In addition, an instance has four flags. These flags indicate:
+
+Whether line terminators are to be returned as tokens or treated as white space that merely separates tokens.
+Whether C-style comments are to be recognized and skipped.
+Whether C++-style comments are to be recognized and skipped.
+Whether the characters of identifiers are converted to lowercase.
+A typical application first constructs an instance of this class, sets up the syntax tables, and then repeatedly loops calling the nextToken method in each iteration of the loop until it returns the value TT_EOF.
+
+10. PrintWriter
+
+The PrintWriter class enables you to write formatted data to an underlying Writer. For instance, writing int, long and other primtive data formatted as text, rather than as their byte values.
+Here is a simple example:
+PrintWriter writer = new PrintWriter(writer);
+
+writer.print(true);
+writer.print((int) 123);
+writer.print((float) 123.456);
+
+writer.printf(Locale.UK, "Text + data: %1$", 123);    
+
+writer.close();
+The PrintWriter class contains the powerful format() and printf() methods (they do exactly the same, but the name "printf" is more familiar to C-programmers). These methods allow you to mix text and data in very advanced ways, using a formatting string. For more information about format() and printf() see the JavaDoc.
+The PrintWriter has a wide selection of contructors that enable you to connect it to a File, an OutputStream, or a Writer.
+
+11. StringReader
+
+The StringReader class enables you to turn an ordinary String into a reader. Here is a simple example:
+Reader reader = new StringReader("input string...");
+
+int data = reader.read();
+while(data != -1) {
+  //do something with data...
+  doSomethingWithData(data);
+
+  data = reader.read();
+}
+reader.close();
+
+12. StringWriter
+
+The StringWriter class enables you to obtain the characters written to a Writer as a String. Here is a simple example:
+StringWriter writer = new StringWriter();
+
+//write characters to writer.
+
+String       data       = writer.toString();
+StringBuffer dataBuffer = writer.getBuffer();
+The method toString() returns the characters written to the StringWriter as a String.
+The method getBuffer() returns the StringBuffer used by the StringWriter to build the string from the written characters.

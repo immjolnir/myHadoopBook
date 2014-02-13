@@ -1,0 +1,9 @@
+Java IO: Concurrent IO
+
+http://tutorials.jenkov.com/java-io/concurrent-io.html
+Sometimes you may need to process input and output concurrently. In other words, you may need to have more than one thread processing input and producing output. For instance, you may have an application that needs to process a large number of files on the disk. This can be done in parallel with performance gain. Or you may have a server, like a web server or chat server, that receives many individual connections and requests. These may also be processed in parallel with some performance gain as result.
+If you need concurrent IO, here are a few general issues you should be aware of:
+You should not have more than one thread read from an InputStream or Reader at the same time. Nor should you have more than one thread write to an OutputStream or Writer at the same time. If you, you have no way to guarantee how much of the input each thread will read, or in what sequence the threads write data to the output stream.
+You may be able to have more than one thread use a stream, reader or writer if they use it sequentially. For instance, you may have one thread determine from the input what type of request it is, then hand it over to the appropriate thread for further processing. This is possible since the access to the stream / reader / writer is sequential. Note, that the code that hands over the stream between the threads should be properly synchronized.
+Note: In Java NIO you are able to have a single thread read from / write to more than "channel". For instance, if you have a lot of network connections open, but there is only data on each connection rarely, for instance in a chat server, you can have a single thread monitor all channels (connections). Java NIO is a different story though, and will be covered in a later tutorial.
+

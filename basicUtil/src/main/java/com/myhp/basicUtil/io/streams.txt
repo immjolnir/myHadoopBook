@@ -1,0 +1,445 @@
+Java IO: Streams
+
+http://tutorials.jenkov.com/java-io/streams.html
+In Java IO streams are flows of data you can either read from, or write to. As mentioned earlier in this tutorial, streams are typically connected to a data source, or data destination, like a file, network connection etc.
+A stream has no concept of an index of the read or written data, like an array does. Nor can you typically move forth and back in a stream, like you can in an array, or in a file using RandomAccessFile. A stream is just a continuous flow of data.
+Some stream implementations like the PushbackInputStream allows you to push data back into the stream, to be re-read again later. But you can only push back a limited amount of data, and you cannot traverse the data at will, like you can with an array. Data can only be accessed sequentially.
+In Java IO streams are typically byte based. This means that you can either read bytes from, or write bytes to a stream. If you need to read / write characters (like Latin1 or UNICODE characters), you should use a Reader or Writer. See the text Java Readers and Writers for more information about character based input and output.
+
+InputStream
+The class java.io.InputStream is the base class for all Java IO input streams. If you are writing a component that needs to read input from a stream, try to make our component depend on an InputStream, rather than any of it's subclasses (e.g. FileInputStream). This isn't always possible. If you need to be able to push back data onto the stream, you will have to depend on a PushbackInputStream - meaning your stream variable will be of this type. Otherwise your code will not be able to call the unread() method
+You typically read data from an InputStream by calling the read() method. The read() method returns a int containing the byte value of the byte read. If there are no more data to be read, the read() method typically returns -1; Note: Some of the
+Here is a simple example:
+InputStream input = new FileInputStream("c:\\data\\input-file.txt");
+
+int data = input.read();
+
+while(data != -1){
+  data = input.read();
+}
+
+OutputStream
+The class java.io.OutputStream is the base class of all Java IO output streams. If you are writing a component that needs to write output to a stream, try to make sure that component depends on an OutputStream and not one of its subclasses.
+Here is a simple example pushing some data out to a file:
+OutputStream output = new FileOutputStream("c:\\data\\output-file.txt");
+output.write("Hello World".getBytes());
+output.close();
+
+Combining Streams
+You can combine streams into chains to achieve more advanced input and output operations. For instance, reading every byte one at a time from a file is slow. It is faster to read a larger block of data from the disk and then iterate through that block byte for byte afterwards. To achieve buffering you can wrap your InputStream in an BufferedInputStream. Here is an example:
+
+InputStream input = new BufferedInputStream(
+                        new FileInputStream("c:\\data\\input-file.txt"));
+
+...
+Buffering can also be applied to OutputStream's thereby batching the writes to disk (or the underlying stream) up in larger chunks. That provides faster output too.
+Buffering is just one of the effects you can achieve by combining streams. You can also wrap your InputStream in a PushbackStream. That way you can push data back into the stream to be re-read later. This is sometimes handy during parsing.
+There are several other effects that can be achieved by combining input and output streams into chains. You can even write your own stream classes to wrap the standard stream classes that comes with Java. That way you can create your own effects or filters.
+
+
+1. InputStream
+The InputStream class is the base class (superclass) of all input streams in the Java IO API. Subclasses include the FileInputStream, BufferedInputStream and the PushbackInputStream among others. To see a full list of streams, go to the bottom table of the Java IO Overview page.
+Table of contents:
+Java InputStream Example
+read()
+InputStreams and Sources
+Java InputStream Example
+Java InputStream's are used for reading byte based data, one byte at a time. Here is a Java InputStream example:
+InputStream inputstream = new FileInputStream("c:\\data\\input-text.txt");
+
+int data = inputstream.read();
+while(data != -1) {
+  //do something with data...
+  doSomethingWithData(data);
+
+  data = inputstream.read();
+}
+inputstream.close();
+Note: The proper exception handling has been skipped here for the sake of clarity. To learn more about correct exception handling, go to Java IO Exception Handling.
+read()
+The read() method of an InputStream returns an int which contains the byte value of the byte read. Here is an InputStream read() example:
+int data = inputstream.read();
+You can case the returned int to a char like this:
+char aChar = (char) data;
+Subclasses of InputStream may have alternative read() methods. For instance, the DataInputStream allows you to read Java primitives like int, long, float, double, boolean etc. with its corresponding methods readBoolean(), readDouble() etc.
+End of Stream
+If the read() method returns -1, the end of stream has been reached, meaning there is no more data to read in the InputStream. That is, -1 as int value, not -1 as byte or short value. There is a difference here!
+When the end of stream has been reached, you can close the InputStream.
+InputStreams and Sources
+An InputStream is typically always connected to some data source, like a file, network connection, pipe etc. This is also explained in more detail in the Java IO Overview text.
+
+2. outputStream
+
+The OutputStream class is the base class of all output streams in the Java IO API. Subclasses include the BufferedOutputStream and the FileOutputStream among others. To see a full list of streams, go to the bottom table of the Java IO Overview page.
+OutputStream's are used for writing byte based data, one byte at a time. Here is an example:
+OutputStream output = new FileOutputStream("c:\\data\\output-text.txt");
+
+while(moreData) {
+  int data = getMoreData();
+  output.write(data);
+}
+output.close();
+Note: The proper exception handling has been skipped here for the sake of clarity. To learn more about correct exception handling, go to Java IO Exception Handling.
+The write() method of an OutputStream takes an int which contains the byte value of the byte to write.
+Subclasses of OutputStream may have alternative write() methods. For instance, the DataOutputStream allows you to write Java primitives like int, long, float, double, boolean etc. with its corresponding methods writeBoolean(), writeDouble() etc.
+
+OutputStream's and Destinations
+An OutputStream is typically always connected to some data destination, like a file, network connection, pipe etc. This is also explained in more detail in the Java IO Overview text.
+
+3. FileInputStream
+
+The FileInputStream class makes it possible to read the contents of a file as a stream of bytes. Here is a simple example:
+InputStream input = new FileInputStream("c:\\data\\input-text.txt");
+
+int data = input.read();
+while(data != -1) {
+  //do something with data...
+  doSomethingWithData(data);
+
+  data = input.read();
+}
+input.close();
+Note: The proper exception handling has been skipped here for the sake of clarity. To learn more about correct exception handling, go to Java IO Exception Handling.
+The read() method of a FileInputStream returns an int which contains the byte value of the byte read. If the read() method returns -1, there is no more data to read in the stream, and it can be closed. That is, -1 as int value, not -1 as byte value. There is a difference here!
+The FileInputStream has other constructors too, letting you specify the file to be read in different ways. Look in the official JavaDoc for more detailed info.
+
+4. FileOutputStream
+
+The FileOutputStream class makes it possible to write a file as a stream of bytes. Here is a simple example:
+OutputStream output = new FileOutputStream("c:\\data\\output-text.txt");
+
+while(moreData) {
+  int data = getMoreData();
+  output.write(data);
+}
+output.close();
+Note: The proper exception handling has been skipped here for the sake of clarity. To learn more about correct exception handling, go to Java IO Exception Handling.
+The write() method of a FileOutputStream takes an int which contains the byte value of the byte to write.
+The FileOutputStream has other constructors too, letting you specify the file to write to in different ways. Look in the official JavaDoc for more detailed info.
+Overwriting vs. Appending the File
+When you create a FileOutputStream you can decide if you want to overwrite any existing file with the same name, or if you want to append to any existing file. You decide that via your choice of constructor.
+The contructor taking just one parameter, the file name, will overwrite any existing file:
+OutputStream output = new FileOutputStream("c:\\data\\output-text.txt");
+There is a constructor that takes 2 parameters too: The file name and a boolean. The boolean indicates whether to append or overwrite an existing file. Here are two examples:
+OutputStream output = new FileOutputStream("c:\\data\\output-text.txt", true); //appends to file
+
+OutputStream output = new FileOutputStream("c:\\data\\output-text.txt", false); //overwrites file
+
+5. RandomAccessFile
+
+The RandomAccessFile class in the Java IO API allows you to move around a file and read from it or write to it as you please. You can replace existing parts of a file too. This is not possible with the FileInputStream or FileOutputStream.
+
+Creating a RandomAccessFile
+Before you can work with the RandomAccessFile class you must instantiate it. Here is how that looks:
+RandomAccessFile file = new RandomAccessFile("c:\\data\\file.txt", "rw");
+Notice the second input parameter to the constructor: "rw". This is the mode you want to open file in. "rw" means read/write mode. Check the JavaDoc for more details about what modes you can open a RandomAccessFile in.
+
+Moving Around a RandomAccessFile
+To read or write at a specific location in a RandomAccessFile you must first position the file pointer at the location to read or write. This is done using the seek() method. The current position of the file pointer can be obtained by calling the getFilePointer() method.
+Here is a simple example:
+RandomAccessFile file = new RandomAccessFile("c:\\data\\file.txt", "rw");
+
+file.seek(200);
+
+long pointer = file.getFilePointer();
+
+file.close();
+
+Reading from a RandomAccessFile
+Reading from a RandomAccessFile is done using one of its many read() methods. Here is a simple example:
+RandomAccessFile file = new RandomAccessFile("c:\\data\\file.txt", "rw");
+
+int aByte = file.read();
+
+file.close();
+The read() method reads the byte located a the position in the file currently pointed to by the file pointer in the RandomAccessFile instance.
+Here is a thing the JavaDoc forgets to mention: The read() method increments the file pointer to point to the next byte in the file after the byte just read! This means that you can continue to call read() without having to manually move the file pointer.
+
+Writing to a RandomAccessFile
+Writing to a RandomAccessFile can be done using one it its many write() methods. Here is a simple example:
+RandomAccessFile file = new RandomAccessFile("c:\\data\\file.txt", "rw");
+
+file.write("Hello World".getBytes());
+
+file.close();
+Just like with the read() method the write() method advances the file pointer after being called. That way you don't have to constantly move the file pointer to write data to a new location in the file.
+
+RandomAccessFile Exception Handling
+The proper exception handling of a RandomAccessFile is left out of this text for clarity. However, a RandomAccessFile must be closed properly after use, just like with a stream or reader / writer. To lean more, see the text Java IO Exception Handling.
+
+6. PipedInputStream
+
+http://tutorials.jenkov.com/java-io/pipedinputstream.html
+
+The PipedInputStream class makes it possible to read the contents of a pipe as a stream of bytes. Here is a simple example:
+InputStream input = new PipedInputStream(pipedOutputStream);
+
+int data = input.read();
+while(data != -1) {
+  //do something with data...
+  doSomethingWithData(data);
+
+  data = input.read();
+}
+input.close();
+Note: The proper exception handling has been skipped here for the sake of clarity. To learn more about correct exception handling, go to Java IO Exception Handling.
+The read() method of a PipedInputStream returns an int which contains the byte value of the byte read. If the read() method returns -1, there is no more data to read in the stream, and it can be closed. That is, -1 as int value, not -1 as byte value. There is a difference here!
+
+Java IO Pipes
+As you can see in the example above, a PipedInputStream needs to be connected to a PipedOutputStream. When these two streams are connected they form a pipe. To learn more about Java IO pipes, go to Java IO: Pipes.
+
+7. PipedOutputStream
+The PipedOutputStream class makes it possible to write to a Java pipe as a stream of bytes. Here is a simple example:
+OutputStream output = new PipedOutputStream(pipedInputStream);
+
+while(moreData) {
+  int data = getMoreData();
+  output.write(data);
+}
+output.close();
+Note: The proper exception handling has been skipped here for the sake of clarity. To learn more about correct exception handling, go to Java IO Exception Handling.
+The write() method of a PipedOutputStream takes an int which contains the byte value of the byte to write.
+
+Java IO Pipes
+The PipedOutputStream must always be connected to a PipedInputStream. When connected like that, they form a Java pipe. To learn more about Java pipes, go to Java IO: Pipes.
+
+8. ByteArrayInputStream
+
+The ByteArrayInputStream class of the Java IO API allows you to read data from byte arrays as streams. Here is a simple example:
+byte[] bytes = ... //get byte array from somewhere.
+
+InputStream input = new ByteArrayInputStream(bytes);
+
+int data = input.read();
+while(data != -1) {
+  //do something with data
+
+  data = input.read();
+}
+input.close();    
+ByteArrayInputStream's can be handy if your data is stored in an array, but you have a component that can only process it as an InputStream. The ByteArrayInputStream can thus wrap the byte array, and turn it into a stream.
+
+9. ByteArrayOutputStream
+
+The ByteArrayOutputStream class of the Java IO API allows you to capture data written to a stream in an array. Here is a simple example:
+ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+//write data to output stream
+
+byte[] bytes = output.toByteArray();
+A ByteArrayOutputStream can be handy in situations where you have a component that outputs its data to an OutputStream, but where you need it as a byte array.
+
+10. FilterInputStream
+
+The FilterInputStream is a base class for implementing your own filtering input streams. Basically it just overrides all methods in InputStream.
+Personally, I see no sensible purpose for this class. I cannot see that this class actually adds or changes any behaviour in InputStream except that it takes an InputStream in its constructor. If you choose to extend this class you might as well extend the InputStream class directly, and avoid the extra class in the hierarchy.
+
+11. FilterOutputStream
+
+The FilterOutputStream is a base class for implementing your own filtering output streams. Basically it just overrides all methods in OutputStream.
+Personally, I see no sensible purpose for this class. I cannot see that this class actually adds or changes any behaviour in OutputStream except that it takes an OutputStream in its constructor. If you choose to extend this class you might as well extend the OutputStream class directly, and avoid the extra class in the hierarchy.
+
+12. BufferedInputStream
+
+The BufferedInputStream class provides buffering to your input streams. Buffering can speed up IO quite a bit. Rather than read one byte at a time from the network or disk, you read a larger block at a time. This is typically much faster, especially for disk access and larger data amounts.
+To add buffering to your InputStream's simply wrap them in a BufferedInputStream. Here is how that looks:
+InputStream input = new BufferedInputStream(
+                      new FileInputStream("c:\\data\\input-file.txt"));
+Simple, isn't it? You can set the buffer size to use internally by the BufferedInputStream. You provide the size as a constructor parameter, like this:
+InputStream input = new BufferedInputStream(
+                      new FileInputStream("c:\\data\\input-file.txt"),
+                      8 * 1024
+    );
+This example sets the internal buffer to 8 KB. It is best to use buffer sizes that are multiples of 1024 bytes. That works best with most built-in buffering in hard disks etc.
+Except for adding buffering to your input streams, BufferedInputStream behaves exactly like an InputStream.
+
+13. BufferedOutputStream
+
+The BufferedOutputStream class provides buffering to your output streams. Buffering can speed up IO quite a bit. Rather than write one byte at a time to the network or disk, you write a larger block at a time. This is typically much faster, especially for disk access and larger data amounts.
+To add buffering to your OutputStream's simply wrap them in a BufferedOutputStream. Here is how that looks:
+OutputStream output = new BufferedOutputStream(
+                      new FileOutputStream("c:\\data\\output-file.txt"));
+Simple, isn't it? You can set the buffer size to use internally by the BufferedOutputStream. You provide the size as a constructor parameter, like this:
+OutputStream output = new BufferedOutputStream(
+                      new FileOutputStream("c:\\data\\output-file.txt"),
+                  8 * 1024
+);
+This example sets the internal buffer to 8 KB. It is best to use buffer sizes that are multiples of 1024 bytes. That works best with most built-in buffering in hard disks etc.
+Except for adding buffering to your input streams, BufferedOutputStream behaves exactly like an OutputStream. The only difference is that you may need to call flush() if you need to be absolutely sure that the data written until now is flushed out of the buffer and onto the network or disk.
+
+13. PushbackInputStream
+
+The PushbackInputStream is intendended to be used when you parse data from an InputStream. Sometimes you need to read ahead a few bytes to see what is coming, before you can determine how to interprete the current byte. The PushbackInputStream allows you to do that. Well, actually it allows you to push back the read bytes into the stream. These bytes will then be read again the next time you call read().
+Here is a simple example:
+PushbackInputStream input = new PushbackInputStream(
+                                new FileInputStream("c:\\data\\input.txt"));
+
+int data = input.read();
+
+input.unread(data);
+You can set the number of bytes you should be able to unread in the constructor of the PushbackInputStream. Here is how that is done:
+PushbackInputStream input = new PushbackInputStream(
+                                new FileInputStream("c:\\data\\input.txt"),
+                                8);
+This example sets an internal buffer of 8 bytes. That means you can unread at most 8 bytes at a time, before reading them again.
+
+14. SequenceInputStream
+
+The SequenceInputStream combines two or more other InputStream's into one. First all bytes from the first input stream is iterated and returned, then the bytes from the second input stream. Here is a simple example:
+InputStream input1 = new FileInputStream("c:\\data\\file1.txt");
+InputStream input2 = new FileInputStream("c:\\data\\file2.txt");
+
+InputStream combined = new SequenceInputStream(input1, input2);
+
+The combined input stream can now be used as if it was one coherent stream.
+
+15. DataInputStream
+A data input stream lets an application read primitive Java data types from an underlying input stream in a machine-independent way. An application uses a data output stream to write data that can later be read by a data input stream.
+DataInputStream is not necessarily safe for multithreaded access. Thread safety is optional and is the responsibility of users of methods in this class.
+
+The DataInputStream class enables you to read Java primitives from InputStream's instead of only bytes. You wrap an InputStream in a DataInputStream and then you can read primitives from it. Here is an example:
+DataInputStream input = new DataInputStream(
+                            new FileInputStream("binary.data"));
+
+int    aByte   = input.read();
+int    anInt   = input.readInt();
+float  aFloat  = input.readFloat();
+double aDouble = input.readDouble();
+//etc.
+
+input.close();    
+This is handy if the data you need to read consists of Java primitives larger than one byte each, like int, long, float, double etc.
+
+16. DataOutputStream
+
+The DataOutputStream class enables you to write Java primitives to OutputStream's instead of only bytes. You wrap an OutputStream in a DataOutputStream and then you can write primitives to it. Here is an example:
+DataOutputStream output = new DataOutputStream(
+                            new FileOutputStream("binary.data"));
+
+output.write(45);            //byte data
+output.writeInt(4545);       //int data
+output.writeDouble(109.123); //double data
+
+output.close();
+This is handy if the data you need to write consists of Java primitives larger than one byte each, like int, long, float, double etc.
+
+17. PrintStream
+
+The PrintStream class enables you to write formatted data to an underlying OutputStream. For instance, writing int, long and other primtive data formatted as text, rather than as their byte values.
+Here is a simple example:
+PrintStream output = new PrintStream(outputStream);
+
+output.print(true);
+output.print((int) 123);
+output.print((float) 123.456);
+
+output.printf(Locale.UK, "Text + data: %1$", 123);
+
+output.close();
+The PrintStream class contains the powerful format() and printf() methods (they do exactly the same, but the name "printf" is more familiar to C-programmers). These methods allow you to mix text and data in very advanced ways, using a formatting string. For more information about format() and printf() see the JavaDoc.
+The PrintStream has a wide selection of contructors that enable you to connect it to a File, or an OutputStream.
+
+18. ObjectInputStream
+
+The ObjectInputStream class enables you to read Java objects from InputStream's instead of only bytes. You wrap an InputStream in a ObjectInputStream and then you can read objects from it. Here is an example:
+ObjectInputStream input = new ObjectInputStream(
+                            new FileInputStream("object.data"));
+
+MyClass object = (MyClass) input.readObject();
+//etc.
+
+input.close();    
+For this example to work the object you read must be an instance of MyClass, and must have been serialized into the file "object.data" via an ObjectOutputStream.
+Before you can serialize and de-serialize objects the class of the object must implement java.io.Serializable. For more info, see Java Serializable.
+
+
+
+19. ObjectOutputStream
+
+The ObjectOutputStream class enables you to write Java objects to OutputStream's instead of only bytes. You wrap an OutputStream in a ObjectOutputStream and then you can write objects to it. Here is an example:
+ObjectOutputStream output = new ObjectOutputStream(
+                            new FileOutputStream("object.data"));
+
+MyClass object = new MyClass();
+
+output.writeObject(object);
+//etc.
+
+output.close();
+This serialized object can now be read via an ObjectInputStream.
+Before you can serialize and de-serialize objects the class of the object must implement java.io.Serializable. For more info, see Java Serializable.The ObjectOutputStream class enables you to write Java objects to OutputStream's instead of only bytes. You wrap an OutputStream in a ObjectOutputStream and then you can write objects to it. Here is an example:
+ObjectOutputStream output = new ObjectOutputStream(
+                            new FileOutputStream("object.data"));
+
+MyClass object = new MyClass();
+
+output.writeObject(object);
+//etc.
+
+output.close();
+This serialized object can now be read via an ObjectInputStream.
+Before you can serialize and de-serialize objects the class of the object must implement java.io.Serializable. For more info, see Java Serializable.
+
+http://docs.oracle.com/javase/7/docs/api/java/io/ObjectInputStream.html
+
+An ObjectInputStream deserializes primitive data and objects previously written using an ObjectOutputStream.
+ObjectOutputStream and ObjectInputStream can provide an application with persistent storage for graphs of objects when used with a FileOutputStream and FileInputStream respectively. ObjectInputStream is used to recover those objects previously serialized. Other uses include passing objects between hosts using a socket stream or for marshaling and unmarshaling arguments and parameters in a remote communication system.
+
+ObjectInputStream ensures that the types of all objects in the graph created from the stream match the classes present in the Java Virtual Machine. Classes are loaded as required using the standard mechanisms.
+
+Only objects that support the java.io.Serializable or java.io.Externalizable interface can be read from streams.
+
+The method readObject is used to read an object from the stream. Java's safe casting should be used to get the desired type. In Java, strings and arrays are objects and are treated as objects during serialization. When read they need to be cast to the expected type.
+
+Primitive data types can be read from the stream using the appropriate method on DataInput.
+
+The default deserialization mechanism for objects restores the contents of each field to the value and type it had when it was written. Fields declared as transient or static are ignored by the deserialization process. References to other objects cause those objects to be read from the stream as necessary. Graphs of objects are restored correctly using a reference sharing mechanism. New objects are always allocated when deserializing, which prevents existing objects from being overwritten.
+
+Reading an object is analogous to running the constructors of a new object. Memory is allocated for the object and initialized to zero (NULL). No-arg constructors are invoked for the non-serializable classes and then the fields of the serializable classes are restored from the stream starting with the serializable class closest to java.lang.object and finishing with the object's most specific class.
+
+For example to read from a stream as written by the example in ObjectOutputStream: 
+      FileInputStream fis = new FileInputStream("t.tmp");
+      ObjectInputStream ois = new ObjectInputStream(fis);
+
+      int i = ois.readInt();
+      String today = (String) ois.readObject();
+      Date date = (Date) ois.readObject();
+
+      ois.close();
+ 
+Classes control how they are serialized by implementing either the java.io.Serializable or java.io.Externalizable interfaces.
+
+Implementing the Serializable interface allows object serialization to save and restore the entire state of the object and it allows classes to evolve between the time the stream is written and the time it is read. It automatically traverses references between objects, saving and restoring entire graphs.
+
+Serializable classes that require special handling during the serialization and deserialization process should implement the following methods:
+
+ private void writeObject(java.io.ObjectOutputStream stream)
+     throws IOException;
+ private void readObject(java.io.ObjectInputStream stream)
+     throws IOException, ClassNotFoundException;
+ private void readObjectNoData()
+     throws ObjectStreamException;
+ 
+The readObject method is responsible for reading and restoring the state of the object for its particular class using data written to the stream by the corresponding writeObject method. The method does not need to concern itself with the state belonging to its superclasses or subclasses. State is restored by reading data from the ObjectInputStream for the individual fields and making assignments to the appropriate fields of the object. Reading primitive data types is supported by DataInput.
+
+Any attempt to read object data which exceeds the boundaries of the custom data written by the corresponding writeObject method will cause an OptionalDataException to be thrown with an eof field value of true. Non-object reads which exceed the end of the allotted data will reflect the end of data in the same way that they would indicate the end of the stream: bytewise reads will return -1 as the byte read or number of bytes read, and primitive reads will throw EOFExceptions. If there is no corresponding writeObject method, then the end of default serialized data marks the end of the allotted data.
+
+Primitive and object read calls issued from within a readExternal method behave in the same manner--if the stream is already positioned at the end of data written by the corresponding writeExternal method, object reads will throw OptionalDataExceptions with eof set to true, bytewise reads will return -1, and primitive reads will throw EOFExceptions. Note that this behavior does not hold for streams written with the old ObjectStreamConstants.PROTOCOL_VERSION_1 protocol, in which the end of data written by writeExternal methods is not demarcated, and hence cannot be detected.
+
+The readObjectNoData method is responsible for initializing the state of the object for its particular class in the event that the serialization stream does not list the given class as a superclass of the object being deserialized. This may occur in cases where the receiving party uses a different version of the deserialized instance's class than the sending party, and the receiver's version extends classes that are not extended by the sender's version. This may also occur if the serialization stream has been tampered; hence, readObjectNoData is useful for initializing deserialized objects properly despite a "hostile" or incomplete source stream.
+
+Serialization does not read or assign values to the fields of any object that does not implement the java.io.Serializable interface. Subclasses of Objects that are not serializable can be serializable. In this case the non-serializable class must have a no-arg constructor to allow its fields to be initialized. In this case it is the responsibility of the subclass to save and restore the state of the non-serializable class. It is frequently the case that the fields of that class are accessible (public, package, or protected) or that there are get and set methods that can be used to restore the state.
+
+Any exception that occurs while deserializing an object will be caught by the ObjectInputStream and abort the reading process.
+
+Implementing the Externalizable interface allows the object to assume complete control over the contents and format of the object's serialized form. The methods of the Externalizable interface, writeExternal and readExternal, are called to save and restore the objects state. When implemented by a class they can write and read their own state using all of the methods of ObjectOutput and ObjectInput. It is the responsibility of the objects to handle any versioning that occurs.
+
+Enum constants are deserialized differently than ordinary serializable or externalizable objects. The serialized form of an enum constant consists solely of its name; field values of the constant are not transmitted. To deserialize an enum constant, ObjectInputStream reads the constant name from the stream; the deserialized constant is then obtained by calling the static method Enum.valueOf(Class, String) with the enum constant's base type and the received constant name as arguments. Like other serializable or externalizable objects, enum constants can function as the targets of back references appearing subsequently in the serialization stream. The process by which enum constants are deserialized cannot be customized: any class-specific readObject, readObjectNoData, and readResolve methods defined by enum types are ignored during deserialization. Similarly, any serialPersistentFields or serialVersionUID field declarations are also ignored--all enum types have a fixed serialVersionUID of 0L.
+
+20. Serializable
+
+The Serializable interface is a marker interface your classes must implement if they are to be serialized / deserialized, like shown the examples with ObjectInputStream and ObjectOutputStream.
+Object serialization is kind of a topic in its own right. This Java IO tutorial is mostly focused on the streams and readers / writers. Therefore I will not get into deeper detail about object serialization at this point. In addition,a lot has already been written online about Java object serialization. Instead of repeating it, I'll give you a few links to deeper explanations of the subject. Here are a few:
+http://java.sun.com/developer/technicalArticles/Programming/serialization/
+http://java.sun.com/j2se/1.4.2/docs/guide/serialization/index.html
+
