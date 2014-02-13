@@ -1,5 +1,5 @@
 
-learn Reguar Express in java
+learn Reguar Express in java: RegularExp.java
 
 	1. http://www.javacodegeeks.com/2012/11/java-regular-expression-tutorial-with-examples.html
 	Java regular expressions are most similar to perl.
@@ -16,4 +16,5 @@ learn Reguar Express in java
     http://docs.oracle.com/javase/tutorial/essential/regex/
 
 
-
+Java IO Learning: src/main/java.com.myhp.basicUtil.io.*
+	http://tutorials.jenkov.com/java-io/inputstream.html

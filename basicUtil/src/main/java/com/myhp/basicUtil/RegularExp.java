@@ -77,6 +77,8 @@ public class RegularExp {
         Assert.assertFalse("ab".matches("a(?!b)"));
         Assert.assertFalse(Pattern.compile("a(?!b)").matcher("ab").matches());
         Assert.assertTrue("a".matches("a(?!b)"));
+        Assert.assertTrue("ac".matches("a(?!b).?"));
+        //
     }
 }
 
@@ -85,4 +87,24 @@ Using Regular Expressions with String.matches()
 Strings in Java have built-in support for regular expressions. Strings have three built-in methods for regular expressions,
 i.e., matches(), split()), replace().
  s.split("regex") 	Creates an array with substrings of s divided at occurrence of "regex". "regex" is not included in the result.
+* */
+
+/* Matcher class group(int ) usage:
+
+     *
+     * @param  group
+     *         The index of a capturing group in this matcher's pattern
+     *
+     * @return  The (possibly empty) subsequence captured by the group
+     *          during the previous match, or <tt>null</tt> if the group
+     *          failed to match part of the input
+     *
+     * @throws  IllegalStateException
+     *          If no match has yet been attempted,
+     *          or if the previous match operation failed
+     *
+     * @throws  IndexOutOfBoundsException
+     *          If there is no capturing group in the pattern
+     *          with the given index
+public String group(int group) {
 * */
