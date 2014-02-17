@@ -74,3 +74,85 @@ Compound Commands
               and  ,  expansions match and convert only the first character in the expanded value.  If pattern is omitted, it is treated like a ?,
               which matches every character.  If parameter is @ or *, the case modification operation is applied to each positional  parameter  in
               turn,  and  the  expansion  is the resultant list.  If parameter is an array variable subscripted with @ or *, the case
+
+2.
+       [[ expression ]]
+              Return  a status of 0 or 1 depending on the evaluation of the conditional expression expression.  Expressions are composed of the primaries described below under CONDITIONAL EXPRESSIONS.  Word split-
+              ting and pathname expansion are not performed on the words between the [[ and ]]; tilde expansion, parameter and variable expansion, arithmetic expansion, command substitution, process  substitution,
+              and quote removal are performed.  Conditional operators such as -f must be unquoted to be recognized as primaries.
+
+              When used with [[, The < and > operators sort lexicographically using the current locale.
+
+              When  the == and != operators are used, the string to the right of the operator is considered a pattern and matched according to the rules described below under Pattern Matching.  If the shell option
+              nocasematch is enabled, the match is performed without regard to the case of alphabetic characters.  The return value is 0 if the string matches (==) or does not match (!=) the pattern, and 1  other-
+              wise.  Any part of the pattern may be quoted to force it to be matched as a string.
+
+              An  additional  binary  operator,  =~,  is available, with the same precedence as == and !=.  When it is used, the string to the right of the operator is considered an extended regular expression and
+              matched accordingly (as in regex(3)).  The return value is 0 if the string matches the pattern, and 1 otherwise.  If the regular expression is syntactically incorrect,  the  conditional  expression’s
+              return  value  is  2.  If the shell option nocasematch is enabled, the match is performed without regard to the case of alphabetic characters.  Any part of the pattern may be quoted to force it to be
+              matched as a string.  Substrings matched by parenthesized subexpressions within the regular expression are saved in the array variable BASH_REMATCH.  The element of BASH_REMATCH with index 0  is  the
+              portion of the string matching the entire regular expression.  The element of BASH_REMATCH with index n is the portion of the string matching the nth parenthesized subexpression.
+
+
+3.
+  Here Documents
+       This type of redirection instructs the shell to read input from the current source until a line containing only delimiter (with no trailing blanks) is seen.  All of the lines read up to that point are  then
+       used as the standard input for a command.
+
+       The format of here-documents is:
+
+              <<[-]word
+                      here-document
+              delimiter
+
+       No  parameter  expansion, command substitution, arithmetic expansion, or pathname expansion is performed on word.  If any characters in word are quoted, the delimiter is the result of quote removal on word,
+       and the lines in the here-document are not expanded.  If word is unquoted, all lines of the here-document are subjected to parameter expansion, command substitution, and arithmetic expansion.  In the latter
+       case, the character sequence \<newline> is ignored, and \ must be used to quote the characters \, $, and `.
+
+       If the redirection operator is <<-, then all leading tab characters are stripped from input lines and the line containing delimiter.  This allows here-documents within shell scripts to be indented in a nat-
+       ural fashion.
+
+   Here Strings
+       A variant of here documents, the format is:
+
+              <<<word
+
+       The word is expanded and supplied to the command on its standard input.
+
+
+ Duplicating File Descriptors
+       The redirection operator
+
+              [n]<&word
+
+       is used to duplicate input file descriptors.  If word expands to one or more digits, the file descriptor denoted by n is made to be a copy of that file descriptor.  If the digits in word do  not  specify  a
+       file descriptor open for input, a redirection error occurs.  If word evaluates to -, file descriptor n is closed.  If n is not specified, the standard input (file descriptor 0) is used.
+
+       The operator
+
+              [n]>&word
+
+       is  used  similarly  to duplicate output file descriptors.  If n is not specified, the standard output (file descriptor 1) is used.  If the digits in word do not specify a file descriptor open for output, a
+       redirection error occurs.  As a special case, if n is omitted, and word does not expand to one or more digits, the standard output and standard error are redirected as described previously.
+
+   Moving File Descriptors
+       The redirection operator
+
+              [n]<&digit-
+
+       moves the file descriptor digit to file descriptor n, or the standard input (file descriptor 0) if n is not specified.  digit is closed after being duplicated to n.
+
+       Similarly, the redirection operator
+
+              [n]>&digit-
+
+       moves the file descriptor digit to file descriptor n, or the standard output (file descriptor 1) if n is not specified.
+
+    Opening File Descriptors for Reading and Writing
+       The redirection operator
+
+              [n]<>word
+
+       causes the file whose name is the expansion of word to be opened for both reading and writing on file descriptor n, or on file descriptor 0 if n is not specified.  If the file does not exist, it is created.
+
+

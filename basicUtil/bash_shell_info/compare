@@ -1,0 +1,15 @@
+	>if [[ 1 < 2 ]]; then echo "less than"; else echo "bigger than";  fi
+	less than
+	>if [ 1 < 2 ]; then echo "less than"; else echo "bigger than";  fi
+	bash: 2: No such file or directory
+	bigger than
+	>if ( 1 < 2 ); then echo "less than"; else echo "bigger than";  fi
+	bash: 2: No such file or directory
+	bigger than
+	>if ( 1 \< 2 ); then echo "less than"; else echo "bigger than";  fi
+	bash: 1: command not found
+	bigger than
+	>if [ 1 \< 2 ]; then echo "less than"; else echo "bigger than";  fi
+	less than
+
+so, ( cmd ), [ cmd ], [[express]]
