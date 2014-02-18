@@ -1,5 +1,19 @@
 1. kill hadoop job:
 	hadoop job  -Dmapred.job.tracker=localhost:9001 -kill job_201402072146_0017
 
-2. hadoop distcp hdfs://remote-host:8020/projects/test/A  /projects/local/ -Dmapred.job.queue.name=default
+2. 
+$ jps
+11164 DataNode
+11410 SecondaryNameNode
+11581 JobTracker
+11007 NameNode
+11771 TaskTracker
 
+3. gzip, gunzip, catzip
+
+
+0> hadoop fs -text /user/zhishan/myHadoopBook/compress/output/part-00000.gz
+        1949	111
+        1950	22
+        
+*.gz file could be read by 'hadoop fs -text'
