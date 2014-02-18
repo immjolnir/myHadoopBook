@@ -1,0 +1,8 @@
+1. What’s the difference between equals() and ==?
+
+	See the NameImpComparableTest.testEqual_HashCode_Failure() method
+
+Before discussing the difference between “==” and the equals() method, it’s important to understand that an object has both a location in memory and a specific state depending on the values that are inside the object. 
+
+1.1 In Java, when the “==” operator is used to compare 2 objects, it checks to see if the objects refer to the same place in memory. In other words, it checks to see if the 2 object names are basically references to the same memory location.
+1.2 The equals method is defined in the Object class, from which every class is either a direct or indirect descendant. By default, the equals() method actually behaves the same as the “==” operator – meaning it checks to see if both objects reference the same place in memory. But, the equals method is actually meant to compare the contents of 2 objects, and not their location in memory.

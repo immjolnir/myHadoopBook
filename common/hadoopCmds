@@ -1,2 +1,5 @@
 1. kill hadoop job:
 	hadoop job  -Dmapred.job.tracker=localhost:9001 -kill job_201402072146_0017
+
+2. hadoop distcp hdfs://remote-host:8020/projects/test/A  /projects/local/ -Dmapred.job.queue.name=default
+
