@@ -1,0 +1,46 @@
+1. gzip
+
+-c --stdout --to-stdout
+              Write output on standard output; keep original files unchanged.  If there are several input files, the output consists of a sequence
+              of independently compressed members. To obtain better compression, concatenate all input files before compressing them.
+-d --decompress --uncompress
+              Decompress.
+
+-l --list
+       For each compressed file, list the following fields:
+
+       compressed size: size of the compressed file
+       uncompressed size: size of the uncompressed file
+       ratio: compression ratio (0.0% if unknown)
+       uncompressed_name: name of the uncompressed file
+
+e.g
+$ ls -l README.md.bk 
+-rw-rw-r--. 1 zhishan zhishan  440 Feb 12 21:00 README.md.bk
+$ gzip -1 README.md.bk
+$ ls -l README.md.bk.gz 
+-rw-rw-r--. 1 zhishan zhishan 312 Feb 14 18:28 README.md.bk.gz
+$ gzip -l README.md.bk.gz 
+         compressed        uncompressed  ratio uncompressed_name
+                312                 440  36.1% README.md.bk
+
+The compressed file size is the same as "gzip -9".
+
+2. zcat
+ zcat  is identical to gunzip -c.   zcat uncompresses either a list of files on the command line or its standard input and writes the uncompressed data on standard  output.   zcat  will uncompress files that have the correct magic number whether they have a .gz suffix or not.
+
+	The uncompressed size is given as -1 for files not in gzip format, such as compressed .Z files. To get  the  uncompressed  size  for
+	such a file, you can use:
+
+	zcat file.Z | wc -c
+
+	In combination with the --verbose option, the following fields are also displayed:
+
+	method: compression method
+	crc: the 32-bit CRC of the uncompressed data
+	date & time: time stamp for the uncompressed file
+
+0> gzip -l --verbose README.md.bk.gz 
+method  crc     date  time           compressed        uncompressed  ratio uncompressed_name
+defla 37d687ce Feb 14 18:28                 312                 440  36.1% README.md.bk
+
