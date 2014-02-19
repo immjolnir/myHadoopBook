@@ -24,3 +24,8 @@
 	  public FSDataInputStream open(Path f) throws IOException {
 	    return open(f, getConf().getInt("io.file.buffer.size", 4096));
 	  }
+7. mapred.linerecordreader.maxlength: in LineRecordReader.java
+public LineRecordReader( ... ) {
+   this.maxLineLength = job.getInt("mapred.linerecordreader.maxlength",
+                                    Integer.MAX_VALUE);
+}

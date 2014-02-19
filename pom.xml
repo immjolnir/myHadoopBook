@@ -9,6 +9,7 @@
     <name>Hadoop: The Definitive Guide, Example Code</name>
     <url>http://maven.apache.org</url>
     <modules>
+        <module>AdvancedMapReduce</module>
         <module>basicUtil</module>
         <module>ch02</module>
         <module>ch03</module>
