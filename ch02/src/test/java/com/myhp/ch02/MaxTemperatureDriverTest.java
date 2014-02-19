@@ -16,7 +16,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 
-
 /**
  * Created by zhishan on 2/10/14.
  */
@@ -37,6 +36,7 @@ public class MaxTemperatureDriverTest {
         // case 3:
 
         Path input = new Path(getClass().getResource("/input/ncdc/micro").getPath());
+        System.out.println("input path: "  + input.toString());
         Path output = new  Path("src/test/resources/output");
 
         FileSystem fs = FileSystem.getLocal(conf);
