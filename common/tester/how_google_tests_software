@@ -1,0 +1,26 @@
+p78
+====
+Following is the general set of practices we prescribe for TEs:
+	* Test planning and risk analysis
+	* Review specs, designs, code, and existing tests
+	* Exploratory testing
+	* User scenarios
+	* Test case creation
+	* Executing test cases
+	* Crowd sourcing
+	* User feedback
+Of course, TEs with a strong personalityand excellent communication skills are the onse who do all these things to maximum impact.
+
+Here are some features we want in a test plan:
+
+* It is always up to date.
+* It describes the intent of the software and why it will be loved by its users.
+* It contains a snapshot of how the software is structured and the names of the various components and features.
+* It describes what the software should do and summaries how it will do it.
+
+But, 
+* It cannot take long to create and must be readily modifiable.
+* It should describe what must be tested.
+* It should be useful during testing to help determine progress and coverage gaps.
+
+

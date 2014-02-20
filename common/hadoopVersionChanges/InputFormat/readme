@@ -1,0 +1,2 @@
+
+in mapreduce, the InputFormat use the "createRecordReader", but in mapred, "getRecordReader" is used.

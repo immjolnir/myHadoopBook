@@ -1,0 +1,43 @@
+    void generateXmlFile(final String xmlFile) throws IOException, UnsupportedEncodingException{
+        Document doc = generateDomTree();
+        XMLOutputter outputter = new XMLOutputter(Format.getPrettyFormat());
+        FileWriter writer = new FileWriter(xmlFile);
+        outputter.output(doc, writer);
+        writer.close(); 
+    }
+  
+    Document generateDomTree() throws UnsupportedEncodingException {
+        Document doc = new Document();
+        Element root = new Element(xmlRootTag);
+        doc.setRootElement(root);
+        int index = 0;
+                
+        // generate JDOM Tree for each record
+        for(ULTRecordJT record : records) {
+            root.addContent(generateRecordElement(record, index++));
+        }    
+        root.setAttribute(XML_RECORT_NUMBER_ATTR, new Integer(index).toString());
+        return doc;
+    }
+
+    // simpleFields is a Map<String, Buffer>, only fields in projector file will
+    // be put in dom tree. If there is no projector file, all fields will be put in dom tree
+    Element generateSimpleFieldsElement(final TreeMap<String, Buffer> simpleFields) 
+    throws UnsupportedEncodingException {
+        Element sfEle = new Element(SF_STR);
+        if(simpleFields == null || !isProjected(SF_STR) ) return sfEle;
+        
+        for(Map.Entry<String, Buffer> entry : simpleFields.entrySet()) {
+            String name = entry.getKey();
+            if(isProjected(SF_STR+"#"+name)) {
+                Element subEle = new Element(XMLUtil.getDefaultElementName());
+                XMLUtil.setJDOMElementName(subEle, name);
+                Buffer text = entry.getValue();
+                if(text != null) 
+                    XMLUtil.setJDOMElementText(subEle, text.toString(ENCODING)); 
+                sfEle.addContent(subEle);
+            }
+        }	            
+        return sfEle;
+    }
+    

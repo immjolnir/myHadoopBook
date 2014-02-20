@@ -29,3 +29,13 @@ public LineRecordReader( ... ) {
    this.maxLineLength = job.getInt("mapred.linerecordreader.maxlength",
                                     Integer.MAX_VALUE);
 }
+
+8. what is the JobContext? why only get* method is included?
+Configuration configuration = context.getConfiguration();
+
+And there is main methdod, 
+  /** For debugging.  List non-default properties to the terminal and exit. */
+  public static void main(String[] args) throws Exception {
+    new Configuration().writeXml(System.out);
+  }
+in the Configuration.java.

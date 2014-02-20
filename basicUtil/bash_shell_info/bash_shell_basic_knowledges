@@ -44,6 +44,15 @@ Compound Commands
     ${parameter:offset}
     ${parameter:offset:length}
               Substring  Expansion.
+	e.g 
+		$ a=abcdf
+		$ echo $a
+		abcdf
+		$ echo ${a:0}
+		abcdf
+		$ echo ${a:0:1}
+		a
+
        ${!prefix*}
        ${!prefix@}
               Names matching prefix.  Expands to the names of variables whose names begin with prefix, separated by the first character of the IFS
