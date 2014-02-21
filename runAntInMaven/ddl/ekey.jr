@@ -1,0 +1,6 @@
+module com.mr.ccdi.ft {
+  class EKey {
+    buffer cookie;
+    long timestamp;
+  }
+}

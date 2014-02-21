@@ -1,4 +1,6 @@
- If the extglob shell option is enabled using the shopt builtin, several extended pattern matching operators are recognized.  In the follow‐
+1. list
+======= 
+If the extglob shell option is enabled using the shopt builtin, several extended pattern matching operators are recognized.  In the follow‐
        ing  description, a pattern-list is a list of one or more patterns separated by a |.  Composite patterns may be formed using one or more of
        the following sub-patterns:
 
@@ -18,4 +20,54 @@ FileDecompressor.java  MapFileWriteDemo.java                        PooledStream
 IntPair.java           MaxTemperatureWithCompression.java           SequenceFileReadDemo.java    TextArrayWritable.java  WritableTestBase.java
 MapFileFixer.java      MaxTemperatureWithMapOutputCompression.java  SequenceFileWriteDemo.java   TextIterator.java
 0> cp !(*Test.java) ~/workspace/git/myHadoopBook/ch04/src/main/java/com/myhp/ch04
+
+2. pipe
+=======
+   Pipelines
+       A pipeline is a sequence of one or more commands separated by one of the control operators | or |&.  The format for a pipeline is:
+
+              [time [-p]] [ ! ] command [ [|│|&] command2 ... ]
+
+       The standard output of command is connected via a pipe to the standard input of command2.  This connection is performed before any redirections specified by the command (see REDIRECTION below).   If  |&  is
+       used,  the  standard error of command is connected to command2’s standard input through the pipe; it is shorthand for 2>&1 |.  This implicit redirection of the standard error is performed after any redirec-
+       tions specified by the command.
+
+       The return status of a pipeline is the exit status of the last command, unless the pipefail option is enabled.  If pipefail is enabled, the pipeline’s return status is the value of the last (rightmost) com-
+       mand  to  exit with a non-zero status, or zero if all commands exit successfully.  If the reserved word !  precedes a pipeline, the exit status of that pipeline is the logical negation of the exit status as
+       described above.  The shell waits for all commands in the pipeline to terminate before returning a value.
+
+3. Conditional Expression
+
+CONDITIONAL EXPRESSIONS
+       Conditional expressions are used by the [[ compound command and the test and [ builtin commands to test file attributes and perform string and arithmetic comparisons.  Expressions are formed from  the  fol-
+       lowing  unary  or  binary  primaries.   If  any  file  argument  to  one of the primaries is of the form /dev/fd/n, then file descriptor n is checked.  If the file argument to one of the primaries is one of
+       /dev/stdin, /dev/stdout, or /dev/stderr, file descriptor 0, 1, or 2, respectively, is checked.
+
+       Unless otherwise specified, primaries that operate on files follow symbolic links and operate on the target of the link, rather than the link itself.
+
+       When used with [[, The < and > operators sort lexicographically using the current locale.
+      -d file
+              True if file exists and is a directory.
+    file1 -nt file2
+              True if file1 is newer (according to modification date) than file2, or if file1 exists and file2 does not.
+       -z string
+              True if the length of string is zer
+       string1 == string2
+       string1 = string2
+              True if the strings are equal.  = should be used with the test command for POSIX conformance.
+
+       string1 != string2
+              True if the strings are not equal.
+
+       string1 < string2
+              True if string1 sorts before string2 lexicographically.
+
+       string1 > string2
+              True if string1 sorts after string2 lexicographically.
+
+       arg1 OP arg2
+              OP is one of -eq, -ne, -lt, -le, -gt, or -ge.  These arithmetic binary operators return true if arg1 is equal to, not equal to, less than, less than or equal to, greater  than,  or  greater  than  or
+              equal to arg2, respectively.  Arg1 and arg2 may be positive or negative integers.
+
+
 
