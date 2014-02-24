@@ -10,7 +10,7 @@ import java.io.*;
  * Created on 2/23/14.
  */
 public class GameCharacterTest {
-    private String file = "ch03/src/test/resources/data/SerDe/Game.ser";
+    private String file = "Game.ser";
 
     @Ignore
     @Test
@@ -85,4 +85,59 @@ public class GameCharacterTest {
 
  If GameCharacter do not implements serializable interface,
  "java.io.NotSerializableException: com.myhp.ch03.SerDe.headFirstJava.GameCharacter" is issued.
+* */
+
+
+/*
+* deserialize error:
+*
+* java.io.InvalidClassException: com.myhp.ch03.SerDe.headFirstJava.GameCharacter; local class incompatible:
+* stream classdesc serialVersionUID = 6052424284110960213, <== before modify the GameCharacter.java class
+* local class serialVersionUID = 1052424284110960213, <== after modification.
+*
+* serialVersionUID
+*     /**
+     * Return the serialVersionUID for this class.  The serialVersionUID
+     * defines a set of classes all with the same name that have evolved from a
+     * common root class and agree to be serialized and deserialized using a
+     * common format.  NonSerializable classes have a serialVersionUID of 0L.
+     *
+     * @return  the SUID of the class described by this descriptor
+     *
+      *  serialVersionUID of represented class (null if not computed yet)
+        private volatile Long suid; *
+
+public long getSerialVersionUID() {
+    // REMIND: synchronize instead of relying on volatile?
+    if (suid == null) {
+        suid = AccessController.doPrivileged(
+                new PrivilegedAction<Long>() {
+                    public Long run() {
+                        return computeDefaultSUID(cl);
+                    }
+                }
+        );
+    }
+    return suid.longValue();
+}
+
+    /**
+     * Returns explicit serial version UID value declared by given class, or
+     * null if none.
+
+private static Long getDeclaredSUID(Class<?> cl) {
+    try {
+        Field f = cl.getDeclaredField("serialVersionUID");
+        int mask = Modifier.STATIC | Modifier.FINAL;
+        if ((f.getModifiers() & mask) == mask) {
+            f.setAccessible(true);
+            return Long.valueOf(f.getLong(null));
+        }
+    } catch (Exception ex) {
+    }
+    return null;
+}
+
+It required to define the uid as the format:
+"static final long serialVersionUID = 1052424284110960213L;"
 * */

@@ -88,7 +88,23 @@ Sevaral part as below in Hadoop Common component
 	headFirstJava: p439
 	对象有状态和行为两种属性。行为存在与类中， 而状态存在于个别的对象中。
     An object containning two kind info: Attributes and Behaviours. "Behaviours" info exist in the class definition, but "Attributes" info exist in the class's instance - object.
-	GameCharacter.java -- Serializable class
+	GameCharacter.java -- Serializable class (WriteObject, and ReadObject can be overrided in your class, refer to URI.java)
 	GameCharacterTest.java -- Tester include serializable and deserializable cases.
+
+3.1 SerialVersionID
+http://javapapers.com/core-java/serialversionuid-in-java-serialization/
+How serialVersionUID works?
+When an object is serialized, the serialVersionUID is serialized along with the other contents.
+Later when that is deserialized, the serialVersionUID from the deserialized object is extracted and compared with the serialVersionUID of the loaded class.
+If the numbers do not match then, InvalidClassException is thrown.
+If the loaded class is not having a serialVersionUID declared, then it is automatically generated using the same algorithm as before.
+
+“the default serialVersionUID computation is highly sensitive to class details that may vary depending on compiler implementations, and can thus result in unexpected InvalidClassExceptions during deserialization"
+Not only declaring a serialVersionUID is sufficient. You must do the following two things carefully. Otherwise it defeats the purpose of having the serialVersionUID.
+serialVersionUID should be maintained. As and when you change anything in the class, you should upgrade the serailVersionUID.
+Try your best to declare a unique serialVersionUID. 
+
+http://www.jusfortechies.com/java/core-java/serialVersionUID.php
+	more detail infor can be find in ch03/README.md
  \
  \_ FileSystem

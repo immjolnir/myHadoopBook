@@ -70,4 +70,16 @@ CONDITIONAL EXPRESSIONS
               equal to arg2, respectively.  Arg1 and arg2 may be positive or negative integers.
 
 
+4. ssh command return status:
+ssh exits with the exit status of the remote command or with 255 if an error occurred.
+$ ssh  localhost "time `exit 2`"
+bashrc
+real 0.00
+user 0.00
+sys 0.00
+$ echo $?
+0
 
+$ ssh localhost 'exit 2'
+$ echo $?
+2
