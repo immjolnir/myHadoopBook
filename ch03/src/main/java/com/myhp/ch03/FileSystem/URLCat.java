@@ -1,4 +1,4 @@
-package com.myhp.ch03;
+package com.myhp.ch03.FileSystem;
 
 import java.io.IOException;
 import java.io.InputStream;

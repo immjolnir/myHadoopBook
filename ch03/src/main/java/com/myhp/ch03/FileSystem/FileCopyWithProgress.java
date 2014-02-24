@@ -1,4 +1,4 @@
-package com.myhp.ch03;
+package com.myhp.ch03.FileSystem;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;

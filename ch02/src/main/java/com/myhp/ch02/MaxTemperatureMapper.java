@@ -1,5 +1,7 @@
 package com.myhp.ch02;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
@@ -15,12 +17,15 @@ public class MaxTemperatureMapper extends MapReduceBase
     implements Mapper<LongWritable, Text, Text, IntWritable>{
 
     private static final int MISSING = 9999;
+    public static final Log log = LogFactory.getLog(MaxTemperatureDriver.class);
 
     public void map(LongWritable key, Text value,
                     OutputCollector<Text, IntWritable> output, Reporter reporter) throws IOException{
         // input record
         // 0029029070999991901010413004+64333+023450FM-12+000599999V0202301N008219999999N0000001N9+00441+99999102261ADDGF108991999999999999999999
+        System.out.println("*** System.out.println: " + value.toString()); // getMapperClass
 
+        log.info(log.isInfoEnabled() ? "[Info Enabled] " + value.toString() : "[Info Not Enabled]");
         String line = value.toString();
         String year = line.substring(15, 19);
         int airTemperature;

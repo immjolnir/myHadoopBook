@@ -1,4 +1,4 @@
-package com.myhp.ch03.pathFilters;
+package com.myhp.ch03.FileSystem.pathFilters;
 
 // cc RegexExcludePathFilter A PathFilter for excluding paths that match a regular expression
 import org.apache.hadoop.fs.Path;

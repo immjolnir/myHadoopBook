@@ -1,0 +1,295 @@
+package com.myhp.ch03.Configuration;// cc ConfigurationPrinter An example Tool implementation for printing the properties in a Configuration
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.conf.Configured;
+import org.apache.hadoop.util.Tool;
+import org.apache.hadoop.util.ToolRunner;
+
+import java.util.Map.Entry;
+
+// vv ConfigurationPrinter
+public class ConfigurationPrinter extends Configured implements Tool {
+
+    static {
+        Configuration.addDefaultResource("hdfs-default.xml");
+        Configuration.addDefaultResource("hdfs-site.xml");
+        Configuration.addDefaultResource("mapred-default.xml");
+        Configuration.addDefaultResource("mapred-site.xml");
+    }
+
+    @Override
+    public int run(String[] args) throws Exception {
+        Configuration conf = getConf();
+        for (Entry<String, String> entry : conf) {
+            System.out.printf("%s=%s\n", entry.getKey(), entry.getValue());
+        }
+        return 0;
+    }
+
+    public static void main(String[] args) throws Exception {
+        int exitCode = ToolRunner.run(new ConfigurationPrinter(), args);
+        System.exit(exitCode);
+    }
+}
+// ^^ ConfigurationPrinter
+/*
+* output
+io.seqfile.compress.blocksize=1000000
+keep.failed.task.files=false
+mapred.disk.healthChecker.interval=60000
+dfs.df.interval=60000
+dfs.datanode.failed.volumes.tolerated=0
+mapreduce.reduce.input.limit=-1
+mapred.task.tracker.http.address=0.0.0.0:50060
+mapred.used.genericoptionsparser=true
+mapred.userlog.retain.hours=24
+dfs.max.objects=0
+mapred.jobtracker.jobSchedulable=org.apache.hadoop.mapred.JobSchedulable
+mapred.local.dir.minspacestart=0
+hadoop.native.lib=true
+dfs.https.client.keystore.resource=ssl-client.xml
+dfs.https.server.keystore.resource=ssl-server.xml
+mapred.cluster.reduce.memory.mb=-1
+io.sort.spill.percent=0.80
+hadoop.http.authentication.kerberos.keytab=${user.home}/hadoop.keytab
+mapred.reduce.parallel.copies=5
+tasktracker.http.threads=40
+hadoop.security.authorization=false
+mapreduce.ifile.readahead=true
+io.file.buffer.size=4096
+mapreduce.job.restart.recover=true
+mapred.submit.replication=10
+mapred.local.dir.minspacekill=0
+mapred.task.profile=false
+ipc.client.kill.max=10
+dfs.data.dir=${hadoop.tmp.dir}/dfs/data
+dfs.namenode.avoid.read.stale.datanode=false
+dfs.https.enable=false
+mapred.acls.enabled=false
+mapred.heartbeats.in.second=100
+mapreduce.reduce.shuffle.read.timeout=180000
+mapred.output.compress=false
+mapred.healthChecker.interval=60000
+dfs.blockreport.intervalMsec=3600000
+mapred.jobtracker.blacklist.fault-bucket-width=15
+mapred.task.timeout=600000
+mapred.temp.dir=${hadoop.tmp.dir}/mapred/temp
+mapred.max.tracker.blacklists=4
+dfs.namenode.decommission.interval=30
+dfs.namenode.avoid.write.stale.datanode=false
+dfs.datanode.address=0.0.0.0:50010
+hadoop.http.authentication.token.validity=36000
+mapred.tasktracker.indexcache.mb=10
+mapreduce.jobtracker.staging.root.dir=${hadoop.tmp.dir}/mapred/staging
+mapred.queue.default.state=RUNNING
+hadoop.logfile.count=10
+mapred.skip.attempts.to.start.skipping=2
+dfs.block.access.key.update.interval=600
+mapreduce.reduce.shuffle.connect.timeout=180000
+mapred.job.tracker.persist.jobstatus.active=false
+dfs.block.access.token.lifetime=600
+dfs.name.dir=${hadoop.tmp.dir}/dfs/name
+mapred.tasktracker.reduce.tasks.maximum=2
+mapred.output.compression.codec=org.apache.hadoop.io.compress.DefaultCodec
+jobclient.output.filter=FAILED
+dfs.permissions=true
+mapred.jobtracker.restart.recover=false
+dfs.webhdfs.enabled=false
+ipc.client.connection.maxidletime=10000
+mapred.local.dir=${hadoop.tmp.dir}/mapred/local
+dfs.datanode.ipc.address=0.0.0.0:50020
+net.topology.impl=org.apache.hadoop.net.NetworkTopology
+mapred.job.tracker=local
+dfs.default.chunk.view.size=32768
+mapred.job.shuffle.merge.percent=0.66
+mapred.map.max.attempts=4
+dfs.safemode.extension=30000
+hadoop.security.instrumentation.requires.admin=false
+dfs.datanode.max.xcievers=4096
+dfs.namenode.safemode.min.datanodes=0
+hadoop.http.authentication.signature.secret.file=${user.home}/hadoop-http-auth-signature-secret
+fs.checkpoint.size=67108864
+io.skip.checksum.errors=false
+dfs.datanode.https.address=0.0.0.0:50475
+mapred.job.reduce.input.buffer.percent=0.0
+hadoop.http.authentication.kerberos.principal=HTTP/localhost@LOCALHOST
+mapred.output.compression.type=RECORD
+mapred.task.cache.levels=2
+fs.s3.maxRetries=4
+mapreduce.jobhistory.cleaner.interval-ms=86400000
+io.sort.factor=10
+mapred.userlog.limit.kb=0
+fs.default.name=file:///
+mapred.job.tracker.retiredjobs.cache.size=1000
+ipc.client.idlethreshold=4000
+hadoop.tmp.dir=/tmp/hadoop-${user.name}
+fs.checkpoint.dir=${hadoop.tmp.dir}/dfs/namesecondary
+dfs.client.use.datanode.hostname=false
+dfs.namenode.decommission.nodes.per.interval=5
+hadoop.skip.worker.version.check=false
+hadoop.util.hash.type=murmur
+io.seqfile.lazydecompress=true
+mapred.job.reduce.memory.mb=-1
+dfs.datanode.dns.interface=default
+mapred.skip.map.max.skip.records=0
+dfs.namenode.delegation.key.update-interval=86400000
+dfs.https.need.client.auth=false
+fs.s3.buffer.dir=${hadoop.tmp.dir}/s3
+mapred.tasktracker.dns.interface=default
+dfs.block.size=67108864
+io.compression.codecs=org.apache.hadoop.io.compress.DefaultCodec,org.apache.hadoop.io.compress.GzipCodec,org.apache.hadoop.io.compress.BZip2Codec,org.apache.hadoop.io.compress.SnappyCodec
+mapred.task.profile.reduces=0-2
+dfs.access.time.precision=3600000
+mapred.job.tracker.jobhistory.lru.cache.size=5
+mapred.cluster.map.memory.mb=-1
+mapred.skip.reduce.auto.incr.proc.count=true
+mapred.job.tracker.persist.jobstatus.hours=0
+fs.har.impl=org.apache.hadoop.fs.HarFileSystem
+local.cache.size=10737418240
+dfs.namenode.stale.datanode.interval=30000
+mapred.job.tracker.handler.count=10
+dfs.namenode.kerberos.internal.spnego.principal=${dfs.web.authentication.kerberos.principal}
+dfs.namenode.logging.level=info
+hadoop.security.token.service.use_ip=true
+fs.ramfs.impl=org.apache.hadoop.fs.InMemoryFileSystem
+hadoop.rpc.socket.factory.class.default=org.apache.hadoop.net.StandardSocketFactory
+fs.kfs.impl=org.apache.hadoop.fs.kfs.KosmosFileSystem
+dfs.https.address=0.0.0.0:50470
+mapreduce.job.acl-view-job=
+dfs.datanode.http.address=0.0.0.0:50075
+mapreduce.job.counters.group.name.max=128
+job.end.retry.interval=30000
+dfs.heartbeat.interval=3
+mapred.queue.names=default
+fs.hdfs.impl=org.apache.hadoop.hdfs.DistributedFileSystem
+dfs.secondary.namenode.kerberos.internal.spnego.principal=${dfs.web.authentication.kerberos.principal}
+mapred.jobtracker.job.history.block.size=3145728
+mapreduce.reduce.shuffle.maxfetchfailures=10
+mapreduce.ifile.readahead.bytes=4194304
+ipc.client.fallback-to-simple-auth-allowed=false
+mapred.child.tmp=./tmp
+fs.har.impl.disable.cache=true
+dfs.blockreport.initialDelay=0
+fs.hftp.impl=org.apache.hadoop.hdfs.HftpFileSystem
+io.sort.mb=100
+mapred.cluster.max.reduce.memory.mb=-1
+mapred.jobtracker.nodegroup.aware=false
+mapred.line.input.format.linespermap=1
+dfs.replication.interval=3
+mapred.combine.recordsBeforeProgress=10000
+mapred.map.tasks=2
+dfs.replication.max=512
+hadoop.http.authentication.type=simple
+dfs.namenode.edits.toleration.length=0
+io.map.index.skip=0
+mapred.task.profile.maps=0-2
+mapred.tasktracker.map.tasks.maximum=2
+hadoop.jetty.logs.serve.aliases=true
+mapred.map.tasks.speculative.execution=true
+webinterface.private.actions=false
+dfs.datanode.du.reserved=0
+dfs.namenode.handler.count=10
+fs.s3.impl=org.apache.hadoop.fs.s3.S3FileSystem
+fs.checkpoint.edits.dir=${fs.checkpoint.dir}
+ipc.server.listen.queue.size=128
+dfs.replication.min=1
+mapred.reduce.tasks=1
+mapreduce.tasktracker.outofband.heartbeat=false
+dfs.namenode.delegation.token.renew-interval=86400000
+mapred.min.split.size=0
+hadoop.logfile.size=10000000
+mapred.job.queue.name=default
+dfs.datanode.sync.behind.writes=false
+fs.webhdfs.impl=org.apache.hadoop.hdfs.web.WebHdfsFileSystem
+dfs.datanode.handler.count=3
+dfs.namenode.invalidate.work.pct.per.iteration=0.32f
+dfs.name.edits.dir=${dfs.name.dir}
+dfs.replication=3
+ipc.server.tcpnodelay=false
+mapred.jobtracker.taskScheduler=org.apache.hadoop.mapred.JobQueueTaskScheduler
+dfs.replication.considerLoad=true
+dfs.datanode.use.datanode.hostname=false
+mapreduce.job.counters.counter.name.max=64
+mapred.skip.reduce.max.skip.groups=0
+dfs.datanode.data.dir.perm=755
+mapred.tasktracker.dns.nameserver=default
+mapred.tasktracker.taskmemorymanager.monitoring-interval=5000
+mapred.tasktracker.expiry.interval=600000
+dfs.web.ugi=webuser,webgroup
+hadoop.security.uid.cache.secs=14400
+map.sort.class=org.apache.hadoop.util.QuickSort
+fs.ftp.impl=org.apache.hadoop.fs.ftp.FTPFileSystem
+dfs.balance.bandwidthPerSec=1048576
+dfs.permissions.supergroup=supergroup
+mapred.max.tracker.failures=4
+mapred.job.tracker.http.address=0.0.0.0:50030
+fs.file.impl=org.apache.hadoop.fs.LocalFileSystem
+mapreduce.jobhistory.max-age-ms=2592000000
+mapred.healthChecker.script.timeout=600000
+mapreduce.job.complete.cancel.delegation.tokens=true
+mapred.job.tracker.persist.jobstatus.dir=/jobtracker/jobsInfo
+io.sort.record.percent=0.05
+job.end.retry.attempts=0
+mapred.reduce.tasks.speculative.execution=true
+dfs.safemode.threshold.pct=0.999f
+fs.s3n.impl=org.apache.hadoop.fs.s3native.NativeS3FileSystem
+hadoop.http.authentication.simple.anonymous.allowed=true
+mapred.system.dir=${hadoop.tmp.dir}/mapred/system
+mapred.job.reuse.jvm.num.tasks=1
+mapred.task.tracker.task-controller=org.apache.hadoop.mapred.DefaultTaskController
+dfs.datanode.drop.cache.behind.reads=false
+dfs.image.transfer.bandwidthPerSec=0
+mapred.jobtracker.maxtasks.per.job=-1
+fs.hsftp.impl=org.apache.hadoop.hdfs.HsftpFileSystem
+mapred.skip.map.auto.incr.proc.count=true
+fs.s3.block.size=67108864
+io.serializations=org.apache.hadoop.io.serializer.WritableSerialization
+mapred.inmem.merge.threshold=1000
+dfs.namenode.write.stale.datanode.ratio=0.5f
+mapred.job.map.memory.mb=-1
+io.mapfile.bloom.size=1048576
+mapred.reduce.max.attempts=4
+topology.script.number.args=100
+mapred.cluster.max.map.memory.mb=-1
+mapred.reduce.slowstart.completed.maps=0.05
+dfs.block.access.token.enable=false
+io.seqfile.sorter.recordlimit=1000000
+fs.trash.interval=0
+dfs.secondary.http.address=0.0.0.0:50090
+hadoop.security.authentication=simple
+hadoop.security.group.mapping=org.apache.hadoop.security.ShellBasedUnixGroupsMapping
+ipc.client.connect.max.retries=10
+dfs.http.address=0.0.0.0:50070
+fs.checkpoint.period=3600
+mapred.map.output.compression.codec=org.apache.hadoop.io.compress.DefaultCodec
+topology.node.switch.mapping.impl=org.apache.hadoop.net.ScriptBasedMapping
+mapreduce.job.counters.groups.max=50
+mapred.tasktracker.tasks.sleeptime-before-sigkill=5000
+hadoop.security.use-weak-http-crypto=false
+mapred.job.shuffle.input.buffer.percent=0.70
+mapred.jobtracker.completeuserjobs.maximum=100
+dfs.namenode.delegation.token.max-lifetime=604800000
+mapreduce.job.counters.max=120
+mapred.user.jobconf.limit=5242880
+dfs.client.block.write.retries=3
+mapred.compress.map.output=false
+dfs.datanode.readahead.bytes=4193404
+mapred.child.java.opts=-Xmx200m
+mapred.jobtracker.blacklist.fault-timeout-window=180
+mapred.merge.recordsBeforeProgress=10000
+io.mapfile.bloom.error.rate=0.005
+mapreduce.job.split.metainfo.maxsize=10000000
+io.bytes.per.checksum=512
+ipc.client.tcpnodelay=false
+dfs.datanode.drop.cache.behind.writes=false
+hadoop.relaxed.worker.version.check=false
+dfs.datanode.dns.nameserver=default
+dfs.namenode.replication.work.multiplier.per.iteration=2
+mapreduce.tasktracker.outofband.heartbeat.damper=1000000
+mapreduce.job.acl-modify-job=
+fs.s3.sleepTimeSeconds=10
+mapred.task.tracker.report.address=127.0.0.1:0
+
+Process finished with exit code 0
+
+* */

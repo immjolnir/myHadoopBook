@@ -1,6 +1,6 @@
-package com.myhp.ch03;
+package com.myhp.ch03.FileSystem;
 
-import com.myhp.ch03.pathFilters.RegexExcludePathFilter;
+import com.myhp.ch03.FileSystem.pathFilters.RegexExcludePathFilter;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileStatus;
 import org.apache.hadoop.fs.FileSystem;

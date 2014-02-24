@@ -26,7 +26,7 @@
 	  }
 7. mapred.linerecordreader.maxlength: in LineRecordReader.java
 public LineRecordReader( ... ) {
-   this.maxLineLength = job.getInt("mapred.linerecordreader.maxlength",
+   thismaxLineLength = job.getInt("mapred.linerecordreader.maxlength",
                                     Integer.MAX_VALUE);
 }
 
@@ -39,3 +39,45 @@ And there is main methdod,
     new Configuration().writeXml(System.out);
   }
 in the Configuration.java.
+
+
+9. how to configure?
+Add the to the core-site.xml, to resolve that namenode is alwarys reformat when hadoop service is restarted.
+	<property>
+	  <name>hadoop.tmp.dir</name>
+	  <value>${user.home}/hadoop-tmp.DO_NOT_DELETE</value>
+	  <description>A base for other temporary directories.</description>
+	</property>
+
+$ hadoop namenode -format
+	14/02/23 09:26:12 INFO namenode.NameNode: STARTUP_MSG: 
+	/************************************************************
+	STARTUP_MSG: Starting NameNode
+	STARTUP_MSG:   host = fedora.heisenbug-20.mr.com/127.0.0.1
+	STARTUP_MSG:   args = [-format]
+	STARTUP_MSG:   version = 1.2.1
+	STARTUP_MSG:   build = https://svn.apache.org/repos/asf/hadoop/common/branches/branch-1.2 -r 1503152; compiled by 'mattf' on Mon Jul 22 15:23:09 PDT 2013
+	STARTUP_MSG:   java = 1.7.0_45
+	************************************************************/
+	14/02/23 09:26:12 INFO util.GSet: Computing capacity for map BlocksMap
+	14/02/23 09:26:12 INFO util.GSet: VM type       = 32-bit
+	14/02/23 09:26:12 INFO util.GSet: 2.0% max memory = 932184064
+	14/02/23 09:26:12 INFO util.GSet: capacity      = 2^22 = 4194304 entries
+	14/02/23 09:26:12 INFO util.GSet: recommended=4194304, actual=4194304
+	14/02/23 09:26:13 INFO namenode.FSNamesystem: fsOwner=zhishan
+	14/02/23 09:26:13 INFO namenode.FSNamesystem: supergroup=supergroup
+	14/02/23 09:26:13 INFO namenode.FSNamesystem: isPermissionEnabled=true
+	14/02/23 09:26:13 INFO namenode.FSNamesystem: dfs.block.invalidate.limit=100
+	14/02/23 09:26:13 INFO namenode.FSNamesystem: isAccessTokenEnabled=false accessKeyUpdateInterval=0 min(s), accessTokenLifetime=0 min(s)
+	14/02/23 09:26:13 INFO namenode.FSEditLog: dfs.namenode.edits.toleration.length = 0
+	14/02/23 09:26:13 INFO namenode.NameNode: Caching file names occuring more than 10 times 
+	14/02/23 09:26:13 INFO common.Storage: Image file /home/zhishan/hadoop-tmp.DO_NOT_DELETE/dfs/name/current/fsimage of size 113 bytes saved in 0 seconds.
+	14/02/23 09:26:13 INFO namenode.FSEditLog: closing edit log: position=4, editlog=/home/zhishan/hadoop-tmp.DO_NOT_DELETE/dfs/name/current/edits
+	14/02/23 09:26:13 INFO namenode.FSEditLog: close success: truncate to 4, editlog=/home/zhishan/hadoop-tmp.DO_NOT_DELETE/dfs/name/current/edits
+	14/02/23 09:26:13 INFO common.Storage: Storage directory /home/zhishan/hadoop-tmp.DO_NOT_DELETE/dfs/name has been successfully formatted.
+	14/02/23 09:26:13 INFO namenode.NameNode: SHUTDOWN_MSG: 
+	/************************************************************
+	SHUTDOWN_MSG: Shutting down NameNode at fedora.heisenbug-20.mr.com/127.0.0.1
+	************************************************************/
+
+

@@ -15,5 +15,6 @@
     <properties>
         <!--<maven.test.skip>true</maven.test.skip>-->
         <skipTests>true</skipTests>
+        <junit.scope>compile</junit.scope>
     </properties>
 </project>

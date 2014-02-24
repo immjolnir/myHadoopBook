@@ -1,6 +1,6 @@
 mvn archetype:generate \
--DgroupId=com.myhp.ch04 \
--DartifactId=ch04 \
+-DgroupId=com.myhp.hive.rcfile \
+-DartifactId=hive_rcfile \
 -DarchetypeArtifactId=maven-archetype-quickstart \
 -Dversion=1.0 \
 -Dpackaging=jar \

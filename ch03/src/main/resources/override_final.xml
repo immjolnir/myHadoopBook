@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<configuration>
+    <property>
+        <name>weight</name>
+        <value>set-it-in-override_final_xml</value>
+        <description>it is the third way try to override a final property in configuration xml</description>
+    </property>
+    <property>
+        <name>override_final</name>
+        <value>test_its_ok</value>
+    </property>
+</configuration>

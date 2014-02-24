@@ -1,4 +1,4 @@
-package com.myhp.ch03.pathFilters;
+package com.myhp.ch03.FileSystem.pathFilters;
 
 /**
  * Created on 2/12/14.

@@ -1,4 +1,4 @@
-package com.myhp.ch03.pathFilters;
+package com.myhp.ch03.FileSystem.pathFilters;
 
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.PathFilter;
