@@ -67,13 +67,50 @@ public class PairAvro {
         assertThat(dataFileReader.hasNext(), is(false));
     }
 
-    public static void main(String [] args) {
+    public void appendAvroWithDataFileWriter(){
+        Schema schema = null;
         try {
-            new PairAvro().writePairAvroData();
+            schema = new Schema.Parser().parse(getClass().getResourceAsStream("/pair.avsc"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        File file = new File("data.avro");
+        DatumWriter<GenericRecord> writer = new GenericDatumWriter<>(schema);
+        DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<>(writer);
+
+        try {
+            dataFileWriter.create(schema,file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        GenericRecord datum = new GenericData.Record(schema);
+        datum.put("left", "NL");
+        datum.put("right", "NR");
+        try {
+            dataFileWriter.append(datum);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            dataFileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+    public static void main(String [] args) {
+        PairAvro pairAvro = new PairAvro();
+
+        try {
+            pairAvro.writePairAvroData();
+            pairAvro.appendAvroWithDataFileWriter();
         } catch (IOException e) {
             e.printStackTrace();
         }
         new PairAvro().readPairAvroData();
+        // after append, the readPairAvroData()
+        //Expected: is "L"
+//        but: was "NL"
 
         System.out.println("Main done");
     }
