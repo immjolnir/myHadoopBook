@@ -108,3 +108,11 @@ http://www.jusfortechies.com/java/core-java/serialVersionUID.php
 	more detail infor can be find in ch03/README.md
  \
  \_ FileSystem
+
+
+4. SerDe_Avro
+To build a jar with dependencies.
+
+ $ mvn assembly:single
+https://maven.apache.org/plugins/maven-assembly-plugin/index.html
+https://maven.apache.org/plugins/maven-assembly-plugin/descriptor-refs.html#jar-with-dependencies

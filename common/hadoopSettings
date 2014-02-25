@@ -79,5 +79,5 @@ $ hadoop namenode -format
 	/************************************************************
 	SHUTDOWN_MSG: Shutting down NameNode at fedora.heisenbug-20.mr.com/127.0.0.1
 	************************************************************/
-
+Althogh, the variable ${user.home} could not got from the Configuration, but it can be retrieved from the Hadoop JVM instance as its property.
 
