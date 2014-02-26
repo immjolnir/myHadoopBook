@@ -12,6 +12,7 @@ import org.apache.avro.io.DatumWriter;
 import org.apache.avro.util.Utf8;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -25,19 +26,30 @@ public class PairAvro {
         System.out.println("Static block");
 
     }
-    public void writePairAvroData() throws IOException {
+    public void writePairAvroData(File avrofile) throws IOException {
         Schema schema = new Schema.Parser().parse(getClass().getResourceAsStream("/pair.avsc"));
 
         GenericRecord datum = new GenericData.Record(schema);
         datum.put("left", new Utf8("L"));
         datum.put("right", new Utf8("R"));
 
-        File file = new File("data.avro");
+//        GenericRecord datum1 = new GenericData.Record(schema);
+//        datum1.put("left", new Utf8("L1"));
+//        datum1.put("right", new Utf8("R1"));
+//
+//        GenericRecord datum2 = new GenericData.Record(schema);
+//        datum2.put("left", new Utf8("L2"));
+//        datum2.put("right", new Utf8("R2"));
+
+//        File file = new File("data.avro");
+        File file = avrofile;
         DatumWriter<GenericRecord> writer = new GenericDatumWriter<GenericRecord>(schema);
         DataFileWriter<GenericRecord> dataFileWriter =
                 new DataFileWriter<GenericRecord>(writer);
         dataFileWriter.create(schema, file);
         dataFileWriter.append(datum);
+//        dataFileWriter.append(datum1);
+//        dataFileWriter.append(datum2);
         dataFileWriter.close();
     }
 
@@ -67,14 +79,15 @@ public class PairAvro {
         assertThat(dataFileReader.hasNext(), is(false));
     }
 
-    public void appendAvroWithDataFileWriter(){
+    public void OverrideAvroWithDataFileWriter(File avroFile){
         Schema schema = null;
         try {
             schema = new Schema.Parser().parse(getClass().getResourceAsStream("/pair.avsc"));
         } catch (IOException e) {
             e.printStackTrace();
         }
-        File file = new File("data.avro");
+//        File file = new File("data.avro");
+        File file = avroFile;
         DatumWriter<GenericRecord> writer = new GenericDatumWriter<>(schema);
         DataFileWriter<GenericRecord> dataFileWriter = new DataFileWriter<>(writer);
 
@@ -98,20 +111,20 @@ public class PairAvro {
         }
 
     }
-    public static void main(String [] args) {
-        PairAvro pairAvro = new PairAvro();
-
-        try {
-            pairAvro.writePairAvroData();
-            pairAvro.appendAvroWithDataFileWriter();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        new PairAvro().readPairAvroData();
-        // after append, the readPairAvroData()
-        //Expected: is "L"
-//        but: was "NL"
-
-        System.out.println("Main done");
-    }
+//    public static void main(String [] args) {
+//        PairAvro pairAvro = new PairAvro();
+//
+//        try {
+//            pairAvro.writePairAvroData();
+//            pairAvro.appendAvroWithDataFileWriter();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        new PairAvro().readPairAvroData();
+//        // after append, the readPairAvroData()
+//        //Expected: is "L"
+////        but: was "NL"
+//
+//        System.out.println("Main done");
+//    }
 }
