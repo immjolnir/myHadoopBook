@@ -76,3 +76,6 @@ To find out what is the exactly DONE flag.
 
 So guess, the STAR * is not treated as an glob match meta character in Oozie uri-template element.
 
+4. 
+hadoop fs -ls hdfs://localhost:8020/projects/btmp/sling/7/ywa_input/{201402251055\,201402251050\,201402251045\,201402251040\,201402251035\,201402251030\,201402251025\,201402251020\,201402251015\,201402251010\,201402251005\,201402251000}/v2/*/*.avro
+OK!!!
