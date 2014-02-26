@@ -1,0 +1,78 @@
+1. 
+$ export OOZIE_URL=http://localhost:4080/oozie; /home/y/var/yoozieclient/bin/oozie job -log 0053862-140211234415092-oozie-wrkf-C -auth KERBEROS
+
+occurred:E0902: Exception occured: [java.net.URISyntaxException: Illegal character in path at index 145: hdfs://localhost:8020/projects/ywa_output/2014{MONTH}2210] Making the job failed 
+org.apache.oozie.dependency.URIHandlerException: E0902: Exception occured: [java.net.URISyntaxException: Illegal character in path at index 145: hdfs://localhost:8020/projects/ywa_output/2014{MONTH}2210]
+	at org.apache.oozie.service.URIHandlerService.getURIHandler(URIHandlerService.java:162)
+	at org.apache.oozie.command.coord.CoordCommandUtils.createEarlyURIs(CoordCommandUtils.java:359)
+	at org.apache.oozie.command.coord.CoordCommandUtils.separateResolvedAndUnresolved(CoordCommandUtils.java:298)
+	at org.apache.oozie.command.coord.CoordCommandUtils.materializeDataEvents(CoordCommandUtils.java:572)
+	at org.apache.oozie.command.coord.CoordCommandUtils.materializeOneInstance(CoordCommandUtils.java:446)
+	at org.apache.oozie.command.coord.CoordMaterializeTransitionXCommand.materializeActions(CoordMaterializeTransitionXCommand.java:360)
+	at org.apache.oozie.command.coord.CoordMaterializeTransitionXCommand.materialize(CoordMaterializeTransitionXCommand.java:267)
+	at org.apache.oozie.command.MaterializeTransitionXCommand.execute(MaterializeTransitionXCommand.java:72)
+	at org.apache.oozie.command.MaterializeTransitionXCommand.execute(MaterializeTransitionXCommand.java:28)
+	at org.apache.oozie.command.XCommand.call(XCommand.java:280)
+	at org.apache.oozie.service.CallableQueueService$CallableWrapper.run(CallableQueueService.java:175)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+The reason is that "$" missed in {MONTH}.
+
+coordinator.xml
+        <dataset name="DS_YWANormalizerOutput" frequency="${coord:hours(1)}"
+        		initial-instance="2010-01-01T00:00Z" timezone="UTC">
+        	<uri-template>${YWANormalizerOutputBasePath}/${YEAR}{MONTH}${DAY}${HOUR}</uri-template>
+        </dataset>
+
+2.
+
+[ERROR] - The Run Oozie Command returned an error: [Error: E1003 : E1003: Invalid coordinator application attributes, parameter [start] = [2014-02-25T10:00:00Z] must be Date in UTC format (yyyy-MM-dd'T'HH:mm'Z'). Parsing error java.text.ParseException: Could not parse [2014-02-25T10:00:00Z] using [yyyy-MM-dd'T'HH:mm'Z'] mask]!
+[ERROR] - test throws error
+
+It raised by set its startTime as "2014-02-25T10:00:00Z".
+
+3.
+$ oozie job -info 0054081-140211234415092-oozie-wrkf-C@1 -auth KERBEROS
+ID : 0054081-140211234415092-oozie-wrkf-C@1
+------------------------------------------------------------------------------------------------------------------------------------
+Action Number        : 1
+Console URL          : -
+Error Code           : -
+Error Message        : -
+External ID          : -
+External Status      : -
+Job ID               : 0054081-140211234415092-oozie-wrkf-C
+Tracker URI          : -
+Created              : 2014-02-26 04:19 GMT
+Nominal Time         : 2014-02-25 11:00 GMT
+Status               : WAITING
+Last Modified        : 2014-02-26 05:09 GMT
+First Missing Dependency : hdfs://localhost.com:8020/projects/ywa_input/201402251055/v2/*/.created
+------------------------------------------------------------------------------------------------------------------------------------
+
+$ hadoop fs -ls hdfs://localhost.com:8020/projects/ywa_input/201402251055/v2/*/.created
+/projects/ywa_input/201402251055/v2/201402251032/.created
+/projects/ywa_input/201402251055/v2/201402251036/.created
+/projects/ywa_input/201402251055/v2/201402251037/.created
+/projects/ywa_input/201402251055/v2/201402251039/.created
+
+And
+coordinatory.xml
+	<datasets>
+        <dataset name="DS_YWAFeed" frequency="${coord:minutes(5)}"
+                 initial-instance="2010-01-01T00:00Z" timezone="UTC">
+                 <uri-template>${YWANormalizerInputBasePath}/${YEAR}${MONTH}${DAY}${HOUR}${MINUTE}/v2/*/</uri-template>
+                 <done-flag>.created</done-flag>
+        </dataset>
+	<input-events>
+           <data-in name="IN_YWAFeed" dataset="DS_YWAFeed">
+         	<start-instance>${coord:current(-12)}</start-instance>
+        	<end-instance>${coord:current(-1)}</end-instance>
+           </data-in>
+        </input-events>
+Why the expected files exist, but the job is still hunged, with "WAITING" status.
+The answer is that it is irresonable to monitor the "hdfs://localhost.com:8020/projects/ywa_input/201402251055/v2/*/.created" as an input-event.
+To find out what is the exactly DONE flag.
+
+So guess, the STAR * is not treated as an glob match meta character in Oozie uri-template element.
+

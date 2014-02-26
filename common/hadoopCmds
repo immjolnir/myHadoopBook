@@ -2,6 +2,17 @@
 	hadoop job  -Dmapred.job.tracker=localhost:9001 -kill job_201402072146_0017
 oozie job -auth KERBEROS -oozie http://localhost-oozie.com:9001/oozie/ job -submit -config run.propertie
 
+[btmpbld@gl8003.yss.bf1 btdac-slingshot_di_dac_ywanormalizer-hourly]$ /home/y/var/yoozieclient/bin/oozie  job -kill 0053862-140211234415092-oozie-wrkf-C -auth KERBEROS
+java.lang.IllegalArgumentException: Oozie URL is not available neither in command option or in the environment
+	at org.apache.oozie.cli.OozieCLI.getOozieUrl(OozieCLI.java:549)
+	at com.yahoo.oozie.cli.YOozieCLI.createXOozieClient(YOozieCLI.java:347)
+	at org.apache.oozie.cli.OozieCLI.jobCommand(OozieCLI.java:749)
+	at org.apache.oozie.cli.OozieCLI.processCommand(OozieCLI.java:514)
+	at org.apache.oozie.cli.OozieCLI.run(OozieCLI.java:487)
+	at com.yahoo.oozie.cli.YOozieCLI.main(YOozieCLI.java:169)
+Oozie URL is not available neither in command option or in the environment
+
+
 2. 
 $ jps
 11164 DataNode

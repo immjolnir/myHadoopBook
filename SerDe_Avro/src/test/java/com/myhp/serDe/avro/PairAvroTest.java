@@ -18,6 +18,7 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +31,7 @@ public class PairAvroTest {
     private static Schema schema = new Schema.Parser().parse("{\"type\":\"record\",\"name\":\"Pair\",\"doc\":\"A pair of strings.\",\"fields\":[{\"name\":\"left\",\"type\":\"string\"},{\"name\":\"right\",\"type\":\"string\"}]}");
     private  static File avroFile = new File("pairData.avro");
 
-    @Before
+
     public void testWritePairAvroData() throws Exception {
         PairAvro pairAvro = new PairAvro();
         pairAvro.writePairAvroData(avroFile);
@@ -98,4 +99,5 @@ public class PairAvroTest {
         dataFileWriter.close();
 
     }
+
 }
