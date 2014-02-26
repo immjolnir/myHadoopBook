@@ -1,0 +1,9 @@
+>serialver -classpath ch03-1.0-SNAPSHOT.jar com.myhp.ch03.SerDe.headFirstJava.GameCharacter
+com.myhp.ch03.SerDe.headFirstJava.GameCharacter:    static final long serialVersionUID = -3381196546804945934L;
+
+After add the serialiver definition:
+ static final long serialVersionUID = 6052424284110960213L;
+
+the cmd output:
+com.myhp.ch03.SerDe.headFirstJava.GameCharacter:    static final long serialVersionUID = 6052424284110960213L;
+
