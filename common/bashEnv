@@ -1,7 +1,7 @@
 1. list
 ======= 
-If the extglob shell option is enabled using the shopt builtin, several extended pattern matching operators are recognized.  In the follow‐
-       ing  description, a pattern-list is a list of one or more patterns separated by a |.  Composite patterns may be formed using one or more of
+If the extglob shell option is enabled using the shopt builtin, several extended pattern matching operators are recognized.  
+In the following description, a pattern-list is a list of one or more patterns separated by a |.  Composite patterns may be formed using one or more of
        the following sub-patterns:
 
               ?(pattern-list)
@@ -15,11 +15,15 @@ If the extglob shell option is enabled using the shopt builtin, several extended
               !(pattern-list)
                      Matches anything except one of the given patterns
 e.g
+$ shopt -s extglob
 0> ls !(*Test.java)
 FileDecompressor.java  MapFileWriteDemo.java                        PooledStreamCompressor.java  StreamCompressor.java   TextPair.java
 IntPair.java           MaxTemperatureWithCompression.java           SequenceFileReadDemo.java    TextArrayWritable.java  WritableTestBase.java
 MapFileFixer.java      MaxTemperatureWithMapOutputCompression.java  SequenceFileWriteDemo.java   TextIterator.java
 0> cp !(*Test.java) ~/workspace/git/myHadoopBook/ch04/src/main/java/com/myhp/ch04
+$ shopt -u extglob
+>ls !(*ssor).java
+bash: !: event not found
 
 2. pipe
 =======

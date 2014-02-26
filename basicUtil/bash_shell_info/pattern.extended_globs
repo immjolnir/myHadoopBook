@@ -207,4 +207,59 @@ Brace expansions can only be used to generate lists of words. They cannot be use
 18
 19
 
+for(( i=0;i<24;i++)); do if [ $i -lt 10 ];then 
+
+or
+>for i in $(seq 1 9); do echo part-201312230$i; done
+part-2013122301
+part-2013122302
+part-2013122303
+part-2013122304
+part-2013122305
+part-2013122306
+part-2013122307
+part-2013122308
+part-2013122309
+>for i in $(seq 10 23); do echo part-20131223$i; done
+part-2013122310
+part-2013122311
+part-2013122312
+part-2013122313
+part-2013122314
+part-2013122315
+part-2013122316
+part-2013122317
+part-2013122318
+part-2013122319
+part-2013122320
+part-2013122321
+part-2013122322
+part-2013122323
+>for i in {0,1}{0..9} 2{0..3}; do echo part-20131223$i; done
+part-2013122300
+part-2013122301
+part-2013122302
+part-2013122303
+part-2013122304
+part-2013122305
+part-2013122306
+part-2013122307
+part-2013122308
+part-2013122309
+part-2013122310
+part-2013122311
+part-2013122312
+part-2013122313
+part-2013122314
+part-2013122315
+part-2013122316
+part-2013122317
+part-2013122318
+part-2013122319
+part-2013122320
+part-2013122321
+part-2013122322
+part-2013122323
+e.g
+for i in {17..24}{0,1}{0..9} {17..24}2{0..3}; do echo part-20131223$i; done
 

@@ -1,6 +1,6 @@
 mvn archetype:generate \
--DgroupId=com.myhp.hive.rcfile \
--DartifactId=hive_rcfile \
+-DgroupId=com.myhp.serDe.avro \
+-DartifactId=SerDe_Avro \
 -DarchetypeArtifactId=maven-archetype-quickstart \
 -Dversion=1.0 \
 -Dpackaging=jar \

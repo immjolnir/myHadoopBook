@@ -81,3 +81,6 @@ $ hadoop namenode -format
 	************************************************************/
 Althogh, the variable ${user.home} could not got from the Configuration, but it can be retrieved from the Hadoop JVM instance as its property.
 
+
+10.  org.apache.hadoop.conf.Configuration: map.input.file is deprecated. Instead, use mapreduce.map.input.file
+conf.get("mapreduce.map.input.file", "in mapper job return the input file name");
