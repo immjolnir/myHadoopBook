@@ -60,7 +60,9 @@ https://maven.apache.org/plugins/maven-assembly-plugin/descriptor-refs.html#jar-
 
 
 5. avro tool
-========
+============
+Download from: http://mvnrepository.com/artifact/org.apache.avro/avro-tools
+
 It is an open source tools provided for avro project. The followings are the sample usage.
 
 1. avro-tools usage:
@@ -74,7 +76,7 @@ It is an open source tools provided for avro project. The followings are the sam
 1.3 Convert a json file to Avro file by its schema file required
 	$ java -jar avro-tools-1.7.6.jar fromjson --schema-file yourschema-file yourJoson.json
 
-BTW, show its all usages:
+BTW, show its all usages: 
 
 	$ java -jar avro-tools-1.7.6.jar 
 	Version 1.7.6 of Apache Avro
