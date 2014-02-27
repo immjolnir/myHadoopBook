@@ -85,7 +85,10 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
-                    <compilerArgument>-Xlint:deprecation</compilerArgument>
+                    <compilerArgs>
+                        <compilerArgument>-Xlint:deprecation</compilerArgument>
+                        <compilerArgument>-Xlint:unchecked</compilerArgument>
+                    </compilerArgs>
                     <!--<fork>true</fork>-->
                     <!--<meminitial>128m</meminitial>-->
                     <!--<maxmem>512m</maxmem>-->

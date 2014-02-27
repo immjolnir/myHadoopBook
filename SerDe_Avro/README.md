@@ -115,3 +115,38 @@ BTW, show its all usages:
 	trevni_random  Create a Trevni file filled with random instances of a schema.
 	trevni_tojson  Dumps a Trevni file as JSON.
 
+6. If the avro mapreduce job is run by Oozie. You also set the schema when the input/output format set.
+<property>
+	<name>mapred.input.format.class</name>
+	<value>org.apache.avro.mapred.AvroInputFormat</value>
+</property>
+<property>
+	<name>avro.input.schema</name>
+	<value>{"type":"record","name":"WeatherRecord","fields":[{"name":"year","type":"int"},{"name":"temperature","type":"int","order":"ignore"},{"name":"stationId","type":"string","order":"ignore"}]}</value>
+</property>
+
+The above is suitable for "output"
+In AvroJob.java
+  /** The configuration key for a job's input schema. */
+  public static final String INPUT_SCHEMA = "avro.input.schema";
+  /** The configuration key for a job's intermediate schema. */
+  public static final String MAP_OUTPUT_SCHEMA = "avro.map.output.schema";
+  /** The configuration key for a job's output schema. */
+  public static final String OUTPUT_SCHEMA = "avro.output.schema";
+  /** The configuration key for a job's output compression codec.
+   *  This takes one of the strings registered in {@link org.apache.avro.file.CodecFactory} */
+  public static final String OUTPUT_CODEC = "avro.output.codec";
+  /** The configuration key prefix for a text output metadata. */
+  public static final String TEXT_PREFIX = "avro.meta.text.";
+  /** The configuration key prefix for a binary output metadata. */
+  public static final String BINARY_PREFIX = "avro.meta.binary.";
+  /** The configuration key for reflection-based input representation. */
+  public static final String INPUT_IS_REFLECT = "avro.input.is.reflect";
+  /** The configuration key for reflection-based map output representation. */
+  public static final String MAP_OUTPUT_IS_REFLECT = "avro.map.output.is.reflect";
+  /** The configuration key for the data model implementation class. */
+  private static final String CONF_DATA_MODEL = "avro.serialization.data.model";
+
+Failed error:
+
+Error: java.lang.NullPointerException at java.io.StringReader.<init>(StringReader.java:50) at org.apache.avro.Schema$Parser.parse(Schema.java:921) at org.apache.avro.Schema.parse(Schema.java:970) at org.apache.avro.mapred.AvroJob.getInputSchema(AvroJob.java:64) at org.apache.avro.mapred.AvroRecordReader.<init>(AvroRecordReader.java:43) at org.apache.avro.mapred.AvroInputFormat.getRecordReader(AvroInputFormat.java:52) at org.apache.hadoop.mapred.MapTask$TrackedRecordReader.<init>(MapTask.java:161) at org.apache.hadoop.mapred.MapTask.runOldMapper(MapTask.java:382) at org.apache.hadoop.mapred.MapTask.run(MapTask.java:335) at org.apache.hadoop.mapred.YarnChild$2.run(YarnChild.java:158) at java.security.AccessController.doPrivileged(Native Method) at javax.security.auth.Subject.doAs(Subject.java:415) at org.apache.hadoop.security.UserGroupInformation.doAs(UserGroupInformation.java:1284) at org.apache.hadoop.mapred.YarnChild.main(YarnChild.java:153) 

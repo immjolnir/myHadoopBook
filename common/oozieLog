@@ -79,3 +79,22 @@ So guess, the STAR * is not treated as an glob match meta character in Oozie uri
 4. 
 hadoop fs -ls hdfs://localhost:8020/projects/btmp/sling/7/ywa_input/{201402251055\,201402251050\,201402251045\,201402251040\,201402251035\,201402251030\,201402251025\,201402251020\,201402251015\,201402251010\,201402251005\,201402251000}/v2/*/*.avro
 OK!!!
+
+5. oozie cmd:
+# Get the coordinator.xml definition
+$ oozie job -definition 0057628-140211234415092-oozie-wrkf-C -auth KERBEROS 
+
+#Get the workflow.xml definition, 0057632-140211234415092-oozie-wrkf-W is a workflow job of 0057628-140211234415092-oozie-wrkf-C.
+$ oozie job -definition 0057632-140211234415092-oozie-wrkf-W -auth KERBERO
+
+$ oozie job -rerun -action 1 0057628-140211234415092-oozie-wrkf-C
+	-submit
+	-run
+	-start
+	-suspend
+               -rerun <arg>           rerun a job  (coordinator requires -action or -date, bundle
+                                       requires -coordinator or -date)
+[btmpbld@]$ oozie job -rerun 0058030-140211234415092-oozie-wrkf-C -action 1 -auth KERBEROS
+Error: E1018 : E1018: Coord Job Rerun Error: coordinator job is killed or failed so all actions are not eligible to rerun!
+
+Adding -oozie http://oozie-URL

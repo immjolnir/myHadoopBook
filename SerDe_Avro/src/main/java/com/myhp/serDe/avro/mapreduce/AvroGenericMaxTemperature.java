@@ -22,6 +22,7 @@ import org.apache.avro.mapred.Pair;
 import org.apache.avro.util.Utf8;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.mapred.FileInputFormat;
@@ -34,10 +35,27 @@ import org.apache.hadoop.util.ToolRunner;
 
 public class AvroGenericMaxTemperature extends Configured implements Tool {
 
+    public static final Log log = LogFactory.getLog(AvroGenericMaxTemperature.class);
+
     private static final Schema SCHEMA = new Schema.Parser().parse("{\"type\":\"record\", \"name\":\"WeatherRecord\", \"fields\":"
             + "[{\"name\":\"year\", \"type\":\"int\"}, " +
             "{\"name\":\"temperature\", \"type\":\"int\", \"order\": \"ignore\"}, " +
             "{\"name\":\"stationId\", \"type\":\"string\", \"order\": \"ignore\"}]}");
+
+    @Override
+    public void setConf(Configuration conf) {
+        super.setConf(conf);    //To change body of overridden methods use File | Settings | File Templates.
+    }
+
+    public AvroGenericMaxTemperature() {
+        super();
+        log.info("*** In non-arg constructer, without any setting");
+    }
+
+    public AvroGenericMaxTemperature(Configuration conf) {
+        super(conf);    //To change body of overridden methods use File | Settings | File Templates.
+        log.info("*** In constructer, without any setting");
+    }
 
     private static GenericRecord newWeatherRecord(int year, int temperature, String stationId) {
         GenericRecord value = new GenericData.Record(SCHEMA);
@@ -57,7 +75,7 @@ public class AvroGenericMaxTemperature extends Configured implements Tool {
 
     public static class MaxTemperatureMapper extends AvroMapper<Utf8, Pair<Integer, GenericRecord>> {
         public static final Log log = LogFactory.getLog(MaxTemperatureMapper.class);
-        private final String string = "MaxTemperatureMapper";
+        //private final String string = "[MaxTemperatureMapper] ";
 
         private NcdcRecordParser parser = new NcdcRecordParser();
 
@@ -76,15 +94,23 @@ public class AvroGenericMaxTemperature extends Configured implements Tool {
 
         @Override
         public void configure(JobConf jobConf) {
-            super.configure(jobConf);    //To change body of overridden methods use File | Settings | File Templates.
-            log.info(string + "Mapper Job Name: " + jobConf.getJobName());
-            log.info(string + "Mapper Working Dir: " + jobConf.getWorkingDirectory());
-            log.info(string + "Mapper mapefileName" + jobConf.get("mapreduce.map.input.file", "mapreduce.map.input.file not found"));
+            super.configure(jobConf);
+            log.info("*** Job Name: " + jobConf.getJobName());
+            log.info("*** Working Dir: " + jobConf.getWorkingDirectory());
+            log.info("*** mapefileName" + jobConf.get("mapreduce.map.input.file", "mapreduce.map.input.file not found"));
+
+            /*
+            * log.info(string + "mapefileName" + jobConf.get("mapreduce.map.input.file", "mapreduce.map.input.file not found"));
+            * console log format:
+            * 14/02/27 05:48:22 INFO mapreduce.AvroGenericMaxTemperature$MaxTemperatureMapper: [MaxTemperatureMapper] Job Name: Max temperature(Avro)
+            * So the Class name is repeated there. comment out it and remove the "string" from the log.info
+            * */
         }
     }
 
     public static class MaxTemperatureReducer extends
             AvroReducer<Integer, GenericRecord, GenericRecord> {
+        public static final Log log = LogFactory.getLog(MaxTemperatureReducer.class);
 
         @Override
         public void reduce(Integer key, Iterable<GenericRecord> values,
@@ -102,6 +128,14 @@ public class AvroGenericMaxTemperature extends Configured implements Tool {
                 }
             }
             collector.collect(max);
+        }
+
+        @Override
+        public void configure(JobConf jobConf) {
+            super.configure(jobConf);
+            log.info("*** Job Name: " + jobConf.getJobName());
+            log.info("*** Working Dir: " + jobConf.getWorkingDirectory());
+            log.info("*** mapefileName" + jobConf.get("mapreduce.map.input.file", "mapreduce.map.input.file not found"));
         }
     }
 

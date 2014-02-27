@@ -5,9 +5,39 @@
  https://github.com/apache/hive.git
 
 3. oozie dataAction
+Oozie Main Features
+* Execute and monitor workflows in hadoop
+* Periodic scheduling of workflows
+* Trigger execution by data availability
+* HTTP and command line interface + Web console
+
+feature:
+* Directed Acyclic Graph of Jobs
+
+Oozie Workflow Nodes:
+* Control Flow
+	* start/end/kill
+	* decision
+	* fork/join
+
+* Actions:
+	* map-redcue
+	* pig
+	* hdfs
+	* sub-workflow
+	* java -run custom java code(main method)
+job.property
+oozie.wf.application.path
+Purpose:
+* Coordinated exectution of workflows on the Grid
+* Workflows are backwards compatible
+
+
 https://cwiki.apache.org/confluence/display/OOZIE/Java+Cookbook
 http://mail-archives.apache.org/mod_mbox/incubator-oozie-users/201204.mbox/%3CCAF2=Kq4asO35u0OZUPkP2t2F5WwsUnVrRFePdgJqOJOzo2n5ig@mail.gmail.com%3E
  http://www.infoq.com/articles/oozieexample
 http://www.infoq.com/articles/quality-code-book-review
 http://www.michael-noll.com/blog/2013/03/17/reading-and-writing-avro-files-from-the-command-line/
 https://github.com/jwills/avro-json
+
+http://ehukai.com/2011/06/14/using-oozie-to-process-daily-logs/
