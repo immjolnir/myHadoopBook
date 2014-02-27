@@ -34,7 +34,7 @@ import org.apache.hadoop.util.ToolRunner;
 
 public class AvroGenericMaxTemperature extends Configured implements Tool {
 
-    private static final Schema SCHEMA = Schema.parse("{\"type\":\"record\", \"name\":\"WeatherRecord\", \"fields\":"
+    private static final Schema SCHEMA = new Schema.Parser().parse("{\"type\":\"record\", \"name\":\"WeatherRecord\", \"fields\":"
             + "[{\"name\":\"year\", \"type\":\"int\"}, " +
             "{\"name\":\"temperature\", \"type\":\"int\", \"order\": \"ignore\"}, " +
             "{\"name\":\"stationId\", \"type\":\"string\", \"order\": \"ignore\"}]}");
