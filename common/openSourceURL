@@ -41,3 +41,18 @@ http://www.michael-noll.com/blog/2013/03/17/reading-and-writing-avro-files-from-
 https://github.com/jwills/avro-json
 
 http://ehukai.com/2011/06/14/using-oozie-to-process-daily-logs/
+
+4. pig
+http://www-01.ibm.com/software/data/infosphere/hadoop/pig/
+About Pig and PigLatin
+
+Pig was initially developed at Yahoo! to allow people using Hadoop® to focus more on analyzing large data sets and spend less time having to write mapper and reducer programs. Like actual pigs, who eat almost anything, the Pig programming language is designed to handle any kind of data.hence the name! 
+
+Pig is made up of two components: the first is the language itself, which is called PigLatin (yes, people naming various Hadoop projects do tend to have a sense of humor associated with their naming conventions), and the second is a runtime environment where PigLatin programs are executed. Think of the relationship between a Java Virtual Machine (JVM) and a Java application. In this section, we.ll just refer to the whole entity as Pig. 
+
+ At the present time, Pig's infrastructure layer consists of a compiler that produces sequences of Map-Reduce programs, for which large-scale parallel implementations already exist (e.g., the Hadoop subproject). Pig's language layer currently consists of a textual language called Pig Latin, which has the following key properties:
+
+    Ease of programming. It is trivial to achieve parallel execution of simple, "embarrassingly parallel" data analysis tasks. Complex tasks comprised of multiple interrelated data transformations are explicitly encoded as data flow sequences, making them easy to write, understand, and maintain.
+    Optimization opportunities. The way in which tasks are encoded permits the system to optimize their execution automatically, allowing the user to focus on semantics rather than efficiency.
+    Extensibility. Users can create their own functions to do special-purpose processing.
+

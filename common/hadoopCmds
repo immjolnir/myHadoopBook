@@ -1,3 +1,4 @@
+echo -en '\033[60G'
 1. kill hadoop job:
 	hadoop job  -Dmapred.job.tracker=localhost:9001 -kill job_201402072146_0017
 oozie job -auth KERBEROS -oozie http://localhost-oozie.com:9001/oozie/ job -submit -config run.propertie
