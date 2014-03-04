@@ -1,3 +1,5 @@
+>perl -pi -e 's/#+/#/g' Makefile_tes
+
 1. list
 ======= 
 If the extglob shell option is enabled using the shopt builtin, several extended pattern matching operators are recognized.  
