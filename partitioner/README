@@ -1,0 +1,28 @@
+1. source code:
+http://grepcode.com/file/repository.cloudera.com/content/repositories/releases/com.cloudera.hadoop/hadoop-core/0.20.2-320/org/apache/hadoop/mapreduce/lib/partition/HashPartitioner.java?av=h#HashPartitioner
+public int  getPartition(K key, V value, int numReduceTasks) {
+  return (key.hashCode() & Integer.MAX_VALUE) % numReduceTasks;
+}
+
+2.  Partitions the key space.
+
+Partitioner controls the partitioning of the keys of the intermediate map-outputs. The key (or a subset of the key) is used to derive the partition, typically by a hash function. The total number of partitions is the same as the number of reduce tasks for the job. Hence this controls which of the m reduce tasks the intermediate key (and hence the record) is sent for reduction.
+Note: If you require your Partitioner class to obtain the Job's configuration object, implement the Configurable interface. 
+
+3. examples:
+http://hadooped.blogspot.com/2013/09/multipleoutputs-in-java-mapredude.html
+http://grepalex.com/2013/05/20/multipleoutputs-part1/
+http://grepalex.com/2013/07/16/multipleoutputs-part2/
+
+4. MultipleOutputs
+https://hadoop.apache.org/docs/stable/api/org/apache/hadoop/mapreduce/lib/output/MultipleOutputs.html
+
+
+Part 2: FilePermission
+
+fs.permissions.umask-mode = 0022
+https://hadoop.apache.org/docs/r2.2.0/hadoop-project-dist/hadoop-hdfs/HdfsPermissionsGuide.html
+https://hadoop.apache.org/docs/r1.2.1/hdfs_permissions_guide.html
+http://hadoop.apache.org/docs/r0.23.6/hadoop-project-dist/hadoop-common/core-default.xml
+
+

@@ -263,3 +263,8 @@ part-2013122323
 e.g
 for i in {17..24}{0,1}{0..9} {17..24}2{0..3}; do echo part-20131223$i; done
 
+e.g 
+
+-   runCommand:
+     - command: for i in 20130310{00..23}; do hadoop fs -mkdir ${warehouse_base}/ywa_input/$i; hadoop fs -put  ${qe_installation_base}/var/test_data/${qe_config}/input/set_daily_1/ywa/2013031000/* ${warehouse_base}/ywa_input/$i;
+

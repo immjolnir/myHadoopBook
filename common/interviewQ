@@ -1,0 +1,50 @@
+1.Q: Why do you want to change your current job?
+
+My ideal job is to be working in the position you are hiring for because I am looking for a more challenging job. 
+I do not have much passion for aspects of my current job, and I would like to take on a more fulfilling position. 
+
+Some detailed reasons should be given as to why you feel unmotivated on your current job and why you are interested in the new position.
+
+2. Communication skills:
+
+If candidates cannot hear interviewers' questions or requirements clearly, they should feel free to ask the interviewers to clarify. 
+Providing answers irrelevant to the question should be avoided. Actually asking for more clarification is a good way for candidates to show their communication skills. 
+In some cases, it can also buy time to think of a good response. During real software development, requirements are usually ambiguous at first, and 
+engineers have to ask end users for clarification. Therefore, the skill of asking for clarification is an important component of the communication skills set an employer is likely to appreciate.
+Tip:
+Candidates should communicate their thoughts in sufficient detail during phone interviews so that they are convinced interviewers understand their responses.
+
+3.
+Asking a few questions. Interviewers generally leave a few minutes for candidates to ask some questions before a round of interview ends. 
+Candidates would be wise to prepare some questions in advance.
+
+4. Project Experience
+After a candidate has introduced him- or herself, interviewers may follow up with some questions on
+interesting projects listed 
+	* Situation: Concise information about the project background, including the size, features, and target customers of the project.
+	* Task: Concrete tasks should be listed when describing a big project. Please notice the difference between "taking part in a project" and "taking charge of a project". When candidates mentioned they have taken charge of a project, it is highly possible for them to be asked about the overall architectural design, core algorithms, and team collaboration. These questions would be very difficult to answer if the candidates only joined a team and wrote dozens of lines of code. Candidates should be honest during interviews. Reference checks will also query claims made on resume.
+	* Action: Detailed information should be covered about how to finish tasks. If the task was architectural design, what were the requirements and how were they fulfilled? If the task was to implement a feature, what technologies were applied on which platforms? If it was to test, was it tested automatically or manually, with black boxes or white boxes?
+	* Result: Data, especially numbers, about your contribution should be listed explicitly. If the task is to implement features, how many features have been delivered in time? If the task is to maintain an existing system, how many bugs have been fixed?
+
+5. Basic Programming Knoledge
+It includes understanding of programming languages, data structures, and alogorithms.
+
+First, every one should be proficient in at least one or two programming languages.
+
+Second, q focus on data structures. List, tree, stacks, and queues. bug-free code, insert and delte, traverse binary tree iteratively and recurisvely, with pre, in and post-order algorithms.
+
+Last bu not least, Last but not least, algorithms are focal points in many interviews. Candidates should be familiar
+with the differences between various searching and sorting algorithms as well as scenarios suitable for
+each algorithm. There are many interview questions that are actually utilizations of binary search, merge
+sort, and quick sort algorithms. For example, interview questions .Minimum of Rotated Array.
+(Question 27) and .Times of Occurrences in Sorted Array. (Question 83) are about the binary search
+algorithm, and the problem .Reversed Pairs in an Array. (Question 81) is essentially about the merge
+sort algorithm. There are also many interview problems concerning dynamic programming and greedy algorithms
+
+6. Clean, Complete, and Robust Code.
+7. Ask questions.
+Candidates should ask at least one or two questions to show their interest in the hiring company
+and position. Sometimes candidates become exhausted due to many hard interview problems, so it is
+difficult for them to think of some interesting questions right away. Therefore, it is suggested to prepare
+some questions in advance.
+Not all questions are suitable to ask during technical interviews.
