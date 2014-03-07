@@ -98,3 +98,53 @@ $ oozie job -rerun -action 1 0057628-140211234415092-oozie-wrkf-C
 Error: E1018 : E1018: Coord Job Rerun Error: coordinator job is killed or failed so all actions are not eligible to rerun!
 
 Adding -oozie http://oozie-URL
+
+
+5. oozie wf capture-output usage
+http://archive.cloudera.com/cdh/3/oozie/WorkflowFunctionalSpec.html
+
+The capture-output element can be used to propagate values back into Oozie context, which can then be accessed via EL-functions. This needs to be written out as a java properties format file. The filename is obtained via a System property specified by the constant JavaMainMapper.OOZIE_JAVA_MAIN_CAPTURE_OUTPUT_FILE
+
+Syntax:
+
+<workflow-app name="[WF-DEF-NAME]" xmlns="uri:oozie:workflow:0.1">
+    ...
+    <action name="[NODE-NAME]">
+        <ssh>
+            <host>[USER]@[HOST]</host>
+            <command>[SHELL]</command>
+            <args>[ARGUMENTS]</args>
+            ...
+            <capture-output/>
+        </ssh>
+        <ok to="[NODE-NAME]"/>
+        <error to="[NODE-NAME]"/>
+    </action>
+    ...
+</workflow-app>
+If the capture-output element is present, it indicates Oozie to capture output of the STDOUT of the ssh command execution. The ssh command output must be in Java Properties file format and it must not exceed 2KB. From within the workflow definition, the output of an ssh action node is accessible via the String action:output(String node, String key) function (Refer to section '4.2.6 Action EL Functions').
+
+2. Example:
+
+<workflow-app name="sample-wf" xmlns="uri:oozie:workflow:0.1">
+    ...
+    <action name="myssjob">
+        <ssh>
+            <host>foo@bar.com<host>
+            <command>uploaddata</command>
+            <args>jdbc:derby://bar.com:1527/myDB</args>
+            <args>hdfs://foobar.com:8020/usr/tucu/myData</args>
+        </ssh>
+        <ok to="myotherjob"/>
+        <error to="errorcleanup"/>
+    </action>
+    ...
+</workflow-app>
+The output of the command will be ignored because the capture-output element is not present.
+
+
+3. Map wf:actionData(String node)
+
+This function is only applicable to action nodes that produce output data on completion.
+
+The output data is in a Java Properties format and via this EL function it is available as a Map .
