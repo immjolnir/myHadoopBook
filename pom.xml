@@ -15,6 +15,7 @@
         <module>ch04</module>
         <module>hive_rcfile</module>
     <module>SerDe_Avro</module>
+    <module>hadoop_in_action</module>
   </modules>
     <properties>
         <junit.scope>test</junit.scope>

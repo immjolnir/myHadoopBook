@@ -5,10 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.MapReduceBase;
-import org.apache.hadoop.mapred.Mapper;
-import org.apache.hadoop.mapred.OutputCollector;
-import org.apache.hadoop.mapred.Reporter;
+import org.apache.hadoop.mapred.*;
 
 import java.io.IOException;
 
@@ -41,6 +38,20 @@ public class MaxTemperatureMapper extends MapReduceBase
         if ( airTemperature != MISSING && quality.matches("[01459]")) {
             output.collect(new Text(year), new IntWritable(airTemperature));
         }
+    }
+
+    @Override
+    public void configure(JobConf job) {
+        System.out.println("[system]: Mapper: configure");
+        log.info("Mapper: configure()");
+        super.configure(job);
+    }
+
+    @Override
+    public void close() throws IOException {
+        System.out.println("[system]: Mapper: close");
+        log.info("Mapper: close()");
+        super.close();
     }
 }
 /*

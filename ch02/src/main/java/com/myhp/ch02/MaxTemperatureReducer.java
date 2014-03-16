@@ -4,10 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.MapReduceBase;
-import org.apache.hadoop.mapred.OutputCollector;
-import org.apache.hadoop.mapred.Reducer;
-import org.apache.hadoop.mapred.Reporter;
+import org.apache.hadoop.mapred.*;
 
 import java.io.IOException;
 import java.util.Iterator;
@@ -28,5 +25,19 @@ public class MaxTemperatureReducer extends MapReduceBase
             maxValue = Math.max(maxValue, values.next().get());
         }
         output.collect(key, new IntWritable(maxValue));
+    }
+
+    @Override
+    public void configure(JobConf job) {
+        System.out.println("[system]: Reducer: configure");
+        log.info("Reducer: configure()");
+        super.configure(job);
+    }
+
+    @Override
+    public void close() throws IOException {
+        System.out.println("[system]: Reducer: close");
+        log.info("Reducer: close()");
+        super.close();
     }
 }
