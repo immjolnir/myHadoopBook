@@ -85,3 +85,25 @@ Althogh, the variable ${user.home} could not got from the Configuration, but it 
 
 10.  org.apache.hadoop.conf.Configuration: map.input.file is deprecated. Instead, use mapreduce.map.input.file
 conf.get("mapreduce.map.input.file", "in mapper job return the input file name");
+
+11 mapred.child.env
+conf.set("mapred.child.env", "ROOT=" + KEYDB_ROOT);
+so, its format should be "mapred.child.env" assigned "key=value"
+
+12. 
+			conf.setInt("mapred.skip.attempts.to.start.skipping", 1);
+			conf.setInt("mapred.skip.map.max.skip.records", MAX_SKIP_RECORDS);
+			conf.setMaxMapAttempts(MAPRED_MAP_MAX_ATTEMPS);
+			conf.set("mapred.skip.out.dir", RUN_PATH+"/LOGS");
+			
+			conf.setBoolean("mapred.output.compress", true);
+			conf.set("mapred.output.compression.codec", "org.apache.hadoop.io.compress.BZip2Codec");
+			conf.set("mapred.output.compression.type", "BLOCK");
+			
+			conf.setCompressMapOutput(true);
+			conf.set("mapred.map.output.compression.type", "RECORD");
+			conf.setMapOutputCompressorClass(org.apache.hadoop.io.compress.DefaultCodec.class);
+			
+			conf.set("counter.stats.file", COUNTER_FILE_PATH + "/CDF_" + HOUR);
+			conf.setBoolean("mapred.speculative.execution", true);
+			conf.setBoolean("mapred.map.tasks.speculative.execution", true);
