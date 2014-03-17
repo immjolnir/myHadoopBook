@@ -107,3 +107,13 @@ so, its format should be "mapred.child.env" assigned "key=value"
 			conf.set("counter.stats.file", COUNTER_FILE_PATH + "/CDF_" + HOUR);
 			conf.setBoolean("mapred.speculative.execution", true);
 			conf.setBoolean("mapred.map.tasks.speculative.execution", true);
+
+13. hdfs safe mode
+0> hadoop fs -mkdir -p /user/zhishan/hadoop-in-action/ch5/input
+mkdir: org.apache.hadoop.hdfs.server.namenode.SafeModeException: Cannot create directory /user/zhishan/-p. Name node is in safe mode.
+mkdir: org.apache.hadoop.hdfs.server.namenode.SafeModeException: Cannot create directory /user/zhishan/hadoop-in-action/ch5/input. Name node is in safe mode.
+1> hadoop dfsadmin -safemode get
+Safe mode is OFF
+0> hadoop fs -mkdir -p /user/zhishan/hadoop-in-action/ch5/input
+0>
+
