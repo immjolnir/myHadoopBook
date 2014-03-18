@@ -72,7 +72,8 @@ public class CartesianProduct {
         @Override
         protected long computeSplitSize(long goalSize, long minSize, long blockSize) {
             logInputFormat.info("computSplitSize called");
-            return super.computeSplitSize(goalSize, minSize, blockSize);
+            //return super.computeSplitSize(goalSize, minSize, blockSize);
+            return 0;
         }
 
         @Override
@@ -99,9 +100,8 @@ public class CartesianProduct {
                 InputSplit[] rightSplits = getInputSplits(conf,
                         conf.get(RIGHT_INPUT_FORMAT),
                         conf.get(RIGHT_INPUT_PATH), numSplits);
-
-                // Create our CompositeInputSplits, size equal to left.length *
-                // right.length
+                logInputFormat.info("left Splites: " + leftSplits.length + ", right Splites: " + rightSplits.length);
+                // Create our CompositeInputSplits, size equal to left.length * right.length
                 CompositeInputSplit[] returnSplits = new CompositeInputSplit[leftSplits.length
                         * rightSplits.length];
 
@@ -120,13 +120,14 @@ public class CartesianProduct {
                 }
 
                 // Return the composite splits
-                logInputFormat.info("Total splits to process: " + returnSplits.length);
+                logInputFormat.info(i + " Total splits to process: " + returnSplits.length);
                 return returnSplits;
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
                 throw new IOException(e);
             }
         }
+
         //@Override
         public CartesianInputFormat() {
             super();// must be the first statement in the constructer method.
@@ -329,7 +330,7 @@ public class CartesianProduct {
             logMapper.info("method \"CartesianMapper::map()\" called" + "key=" + key + ", value=" + value);
 
             // If the two comments are not equal
-            if (!key.toString().equals(value.toString())) {
+           /* if (!key.toString().equals(value.toString())) {
                 //
                 String[] leftTokens = key.toString().split("\\s");
                 String[] rightTokens = value.toString().split("\\s");
@@ -338,11 +339,11 @@ public class CartesianProduct {
                         Arrays.asList(leftTokens));
                 HashSet<String> rightSet = new HashSet<String>(
                         Arrays.asList(rightTokens));
-                for(String str:  leftSet) {
+                for (String str : leftSet) {
                     logMapper.info("left: " + str);
                 }
 
-                for(String str:  rightSet) {
+                for (String str : rightSet) {
                     logMapper.info("right: " + str);
                 }
 
@@ -359,7 +360,8 @@ public class CartesianProduct {
                     outkey.set(words + "\t" + key);
                     output.collect(outkey, value);
                 }
-            }
+            }*/
+            output.collect(key,value);
         }
     }
 
@@ -383,7 +385,7 @@ public class CartesianProduct {
 
         conf.setNumReduceTasks(0);
 
-        conf.set("mapreduce.input.keyvaluelinerecordreader.key.value.separator"," ");
+        //conf.set("mapreduce.input.keyvaluelinerecordreader.key.value.separator", " ");
         conf.setInputFormat(CartesianInputFormat.class);
         CartesianInputFormat.setLeftInputInfo(conf, TextInputFormat.class,
                 otherArgs[0]);
@@ -402,6 +404,8 @@ public class CartesianProduct {
 
         long finish = System.currentTimeMillis();
 
+        String jobId=String.format("job_%s_%s",job.getID().getJtIdentifier(), job.getID().getId() );
+        System.out.println("Job ID: " + jobId);
         System.out.println("Time in ms: " + (finish - start));
 
         System.exit(job.isSuccessful() ? 0 : 2);

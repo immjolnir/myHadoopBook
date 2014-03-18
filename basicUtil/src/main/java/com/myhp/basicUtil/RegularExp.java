@@ -78,6 +78,12 @@ public class RegularExp {
         Assert.assertFalse(Pattern.compile("a(?!b)").matcher("ab").matches());
         Assert.assertTrue("a".matches("a(?!b)"));
         Assert.assertTrue("ac".matches("a(?!b).?"));
+
+        // Case insensitive
+        Assert.assertTrue("abc".matches("(?i)abc"));
+        Assert.assertTrue("ABC".matches("(?i)abc"));
+        Assert.assertTrue("aBC".matches("a(?i)bc"));
+        Assert.assertTrue("abC".matches("ab(?i)c"));
         //
     }
 }
