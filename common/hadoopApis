@@ -9,3 +9,43 @@
 				     FileSystem dstFS, Path dst, 
 				     boolean deleteSource,
 				     Configuration conf)
+
+3. Reporter API
+http://hadoop.apache.org/docs/r2.2.0/api/org/apache/hadoop/mapred/Reporter.html#getInputSplit%28%29
+
+InputSplit getInputSplit() throws UnsupportedOperationException
+
+    Get the InputSplit object for a map.
+
+    Returns:
+        the InputSplit that the map is reading from.
+
+e.g
+public class InputSplitNameGainer {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+    public static String getInputSplitName(Reporter reporter) {
+
+        String inputFile = "";
+        try {
+            Class clazz = Class.forName("org.apache.hadoop.mapred.lib.TaggedInputSplit");
+            if (reporter.getInputSplit() instanceof FileSplit) {
+                inputFile = ((FileSplit) reporter.getInputSplit()).getPath().toUri().toString();
+            } else  if (clazz.isAssignableFrom(reporter.getInputSplit().getClass()))
+            {
+                Method method = clazz.getMethod("getInputSplit", new Class[0]);
+                method.setAccessible(true);
+                InputSplit iSplit =  (InputSplit) method.invoke(reporter.getInputSplit(), new Object[0]);
+                inputFile = ((FileSplit) iSplit).getPath().toUri().toString();
+            }
+        } catch (Exception e) {
+        	e.printStackTrace();
+        }
+        return inputFile;
+    }
+}
+
+	string mMapFile = InputSplitNameGainer.getInputSplitName(reporter);
+        logger.log(Level.INFO, where + "map.input.file = " + mMapFile);
+        logger.log(Level.INFO, where + "mapred.task.id = " + conf.get("mapred.task.id"));
+
+By get mMapFile's URL, we can get its path, and other files, if its path is solid respactive with the mMapFile's Path.

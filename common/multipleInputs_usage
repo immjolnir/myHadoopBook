@@ -1,0 +1,77 @@
+Link: http://kickstarthadoop.blogspot.com/2011/09/joins-with-plain-map-reduce.html
+
+ //Specifying the input directories(@ runtime) and Mappers independently for inputs from multiple sources
+ MultipleInputs.addInputPath(conf, new Path(args[0]), TextInputFormat.class, UserFileMapper.class);
+ MultipleInputs.addInputPath(conf, new Path(args[1]), TextInputFormat.class, DeliveryFileMapper.class);
+
+There are 2 method:
+1. public static void addInputPath(JobConf conf,
+                                Path path,
+                                Class<? extends InputFormat> inputFormatClass)
+
+    Add a Path with a custom InputFormat to the list of inputs for the map-reduce job.
+2. public static void addInputPath(JobConf conf,
+                                Path path,
+                                Class<? extends InputFormat> inputFormatClass,
+                                Class<? extends Mapper> mapperClass)
+
+    Add a Path with a custom InputFormat and Mapper to the list of inputs for the map-reduce job. 
+
+Oozie - fork/join
+
+3.1.5 Fork and Join Control Nodes
+http://oozie.apache.org/docs/3.2.0-incubating/WorkflowFunctionalSpec.html#a2.1_Cycles_in_Workflow_Definitions
+A fork node splits one path of execution into multiple concurrent paths of execution.
+
+A join node waits until every concurrent execution path of a previous fork node arrives to it.
+
+The fork and join nodes must be used in pairs. The join node assumes concurrent execution paths are children of the same fork node.
+
+Syntax:
+
+<workflow-app name="[WF-DEF-NAME]" xmlns="uri:oozie:workflow:0.1">
+    ...
+    <fork name="[FORK-NODE-NAME]">
+        <path start="[NODE-NAME]" />
+        ...
+        <path start="[NODE-NAME]" />
+    </fork>
+    ...
+    <join name="[JOIN-NODE-NAME]" to="[NODE-NAME]" />
+    ...
+</workflow-app>
+
+The name attribute in the fork node is the name of the workflow fork node. The start attribute in the path elements in the fork node indicate the name of the workflow node that will be part of the concurrent execution paths.
+
+The name attribute in the join node is the name of the workflow join node. The to attribute in the join node indicates the name of the workflow node that will executed after all concurrent execution paths of the corresponding fork arrive to the join node.
+
+Example:
+
+<workflow-app name="sample-wf" xmlns="uri:oozie:workflow:0.1">
+    ...
+    <fork name="forking">
+        <path start="firstparalleljob"/>
+        <path start="secondparalleljob"/>
+    </fork>
+    <action name="firstparallejob">
+        <map-reduce>
+            <job-tracker>foo:9001</job-tracker>
+            <name-node>bar:9000</name-node>
+            <job-xml>job1.xml</job-xml>
+        </map-reduce>
+        <ok to="joining"/>
+        <error to="kill"/>
+    </action>
+    <action name="secondparalleljob">
+        <map-reduce>
+            <job-tracker>foo:9001</job-tracker>
+            <name-node>bar:9000</name-node>
+            <job-xml>job2.xml</job-xml>
+        </map-reduce>
+        <ok to="joining"/>
+        <error to="kill"/>
+    </action>
+    <join name="joining" to="nextaction"/>
+    ...
+</workflow-app>
+
