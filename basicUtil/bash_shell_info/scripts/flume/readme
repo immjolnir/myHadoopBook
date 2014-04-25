@@ -2,3 +2,77 @@
 saveVersion.sh gives exmple about:
 cat, sed, md5sum usage.
 
+2. 
+cat >> a << _ageg
+higheighe
+hgiehgie
+_ageg
+
+3. 
+while :
+do 
+ date
+done
+
+4. test, [ and [[
+4.1 test usage:
+ECHO=3
+#same as if test ! -z "$ECHO"; then
+if ! test -z "$ECHO"; then
+   echo "ECHO defined with value $ECHO"
+else
+   echo "ECHO not defined here";
+fi
+
+if test -d /tmp; then
+   echo "/tmp exist";
+else
+   echo "/tmp not found";
+fi
+
+#test -n
+  # Skip lots of stat calls in the usual case.
+  if test ! -d "$dstdir"; then
+    defaultIFS='
+         '
+    IFS="${IFS-$defaultIFS}"
+
+    oIFS=$IFS
+    # Some sh's can't handle IFS=/ for some reason.
+    IFS='%'
+    set x `echo "$dstdir" | sed -e 's@/@%@g' -e 's@^%@/@'`
+    shift
+    IFS=$oIFS
+
+
+4.2 [ uage:
+
+[ expr ] || [expr2] and [[ expr || expr2 ]]
+
+5. { group saveral command.
+
+  if test -n "$dir_arg"; then
+    $doit $mkdircmd "$dst" \
+      && { test -z "$chowncmd" || $doit $chowncmd "$dst"; } \
+      && { test -z "$chgrpcmd" || $doit $chgrpcmd "$dst"; } \
+      && { test -z "$stripcmd" || $doit $stripcmd "$dst"; } \
+      && { test -z "$chmodcmd" || $doit $chmodcmd "$dst"; }
+
+  else
+    dstfile=`basename "$dst"`
+
+6.
+trap:        
+trap [-lp] [[arg] sigspec ...]
+              The  command  arg  is  to  be  read and executed when the shell receives signal(s) sigspec. 
+
+    # Trap to clean up those temp files at exit.
+    trap 'ret=$?; rm -f "$dsttmp" "$rmtmp" && exit $ret' 0
+    trap '(exit $?); exit' 1 2 13 15
+
+add the following to the end of a file:
+# The final little trick to "correctly" pass the exit status to the exit trap.
+{
+  (exit 0); exit 0
+}
+
