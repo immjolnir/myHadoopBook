@@ -13,6 +13,7 @@
         <module>ch02</module>
         <module>ch03</module>
         <module>ch04</module>
+        <module>ch07</module>
         <module>hive_rcfile</module>
     <module>SerDe_Avro</module>
     <module>hadoop_in_action</module>
