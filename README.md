@@ -116,3 +116,12 @@ To build a jar with dependencies.
  $ mvn assembly:single
 https://maven.apache.org/plugins/maven-assembly-plugin/index.html
 https://maven.apache.org/plugins/maven-assembly-plugin/descriptor-refs.html#jar-with-dependencies
+
+5. Jasper is an open source platform for developing always-on, voice-controlled applications.
+http://jasperproject.github.io/
+5.1 fdisk tool, dd
+
+6. JasperReport, an Java Opensoure Report tool
+http://www.ppurl.com/?s=jasperReport
+http://baike.baidu.com/link?url=lhVfSRms77elAK9raOYPt9yzePc34ksVjST8s41hg-MIFnG2fmq_ktRICPK0QEwD
+

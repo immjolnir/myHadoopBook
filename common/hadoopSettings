@@ -117,3 +117,53 @@ Safe mode is OFF
 0> hadoop fs -mkdir -p /user/zhishan/hadoop-in-action/ch5/input
 0>
 
+13. 
+  private static final String MAPPER_MAX_SKIP_RECORDS = "mapred.skip.map.max.skip.records";
+  private static final String REDUCER_MAX_SKIP_GROUPS = "mapred.skip.reduce.max.skip.groups";
+in SkipBadRecords.java
+
+  public static long getMapperMaxSkipRecords(Configuration conf) {
+    return conf.getLong(MAPPER_MAX_SKIP_RECORDS, 0);
+  }
+  /**
+   * Set the number of acceptable skip records surrounding the bad record PER 
+   * bad record in mapper. The number includes the bad record as well.
+   * To turn the feature of detection/skipping of bad records off, set the 
+   * value to 0.
+   * The framework tries to narrow down the skipped range by retrying  
+   * until this threshold is met OR all attempts get exhausted for this task. 
+   * Set the value to Long.MAX_VALUE to indicate that framework need not try to 
+   * narrow down. Whatever records(depends on application) get skipped are 
+   * acceptable.
+   * Default value is 0.
+   * 
+   * @param conf the configuration
+   * @param maxSkipRecs acceptable skip records.
+   */
+  public static void setMapperMaxSkipRecords(Configuration conf, 
+      long maxSkipRecs) {
+    conf.setLong(MAPPER_MAX_SKIP_RECORDS, maxSkipRecs);
+  }
+
+It is invoked in MapRunner.java, and the following method call the Mapper Class's map() method.
+ public void run(RecordReader<K1, V1> input, OutputCollector<K2, V2> output,
+                  Reporter reporter)
+    throws IOException {
+    try {
+      // allocate key & value instances that are re-used for all entries
+      K1 key = input.createKey();
+      V1 value = input.createValue();
+      
+      while (input.next(key, value)) {
+        // map pair to output
+        mapper.map(key, value, output, reporter); // To call MapperClass's map() method.
+        if(incrProcCount) {
+          reporter.incrCounter(SkipBadRecords.COUNTER_GROUP, 
+              SkipBadRecords.COUNTER_MAP_PROCESSED_RECORDS, 1);
+        }
+      }
+    } finally {
+      mapper.close();
+    }
+  }
+
