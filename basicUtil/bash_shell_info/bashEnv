@@ -89,3 +89,9 @@ $ echo $?
 $ ssh localhost 'exit 2'
 $ echo $?
 2
+
+5. lsattr and chattr command
+Remove the readonly attribute by using "chattr -i file".
+ A  file  with the `i' attribute cannot be modified: it cannot be deleted or renamed, no link can be created to this file and no data can be
+       written to the file.  Only the superuser or a process possessing the CAP_LINUX_IMMUTABLE capability can set or clear this attribute.
+

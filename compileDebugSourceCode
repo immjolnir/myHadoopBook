@@ -1,0 +1,29 @@
+Running org.apache.hadoop.ipc.TestRPCCallBenchmark
+====> TEST TIMED OUT. PRINTING THREAD DUMP. <====
+Timestamp: 2014-04-28 12:18:22,542
+"Thread-35"  prio=5 tid=47 runnable
+java.lang.Thread.State: RUNNABLE
+        at sun.nio.ch.EPollArrayWrapper.epollWait(Native Method)
+        at sun.nio.ch.EPollArrayWrapper.poll(EPollArrayWrapper.java:269)
+        at sun.nio.ch.EPollSelectorImpl.doSelect(EPollSelectorImpl.java:79)
+        at sun.nio.ch.SelectorImpl.lockAndDoSelect(SelectorImpl.java:87)
+        at sun.nio.ch.SelectorImpl.select(SelectorImpl.java:98)
+        at org.apache.hadoop.net.SocketIOWithTimeout$SelectorPool.select(SocketIOWithTimeout.java:335)
+        at org.apache.hadoop.net.SocketIOWithTimeout.connect(SocketIOWithTimeout.java:203)
+        at org.apache.hadoop.net.NetUtils.connect(NetUtils.java:529)
+        at org.apache.hadoop.net.NetUtils.connect(NetUtils.java:493)
+        at org.apache.hadoop.ipc.Client$Connection.setupConnection(Client.java:547)
+        at org.apache.hadoop.ipc.Client$Connection.setupIOstreams(Client.java:642)
+        at org.apache.hadoop.ipc.Client$Connection.access$2600(Client.java:314)
+        at org.apache.hadoop.ipc.Client.getConnection(Client.java:1399)
+        at org.apache.hadoop.ipc.Client.call(Client.java:1318)
+        at org.apache.hadoop.ipc.Client.call(Client.java:1300)
+        at org.apache.hadoop.ipc.WritableRpcEngine$Invoker.invoke(WritableRpcEngine.java:231)
+        at com.sun.proxy.$Proxy8.echo(Unknown Source)
+        at org.apache.hadoop.ipc.RPCCallBenchmark$4.doEcho(RPCCallBenchmark.java:410)
+        at org.apache.hadoop.ipc.RPCCallBenchmark$2.doAnAction(RPCCallBenchmark.java:370)
+        at org.apache.hadoop.test.MultithreadedTestUtil$RepeatingTestThread.doWork(MultithreadedTestUtil.java:222)
+        at org.apache.hadoop.test.MultithreadedTestUtil$TestingThread.run(MultithreadedTestUtil.java:189)
+
+stat, lsattr, chattr command
+
