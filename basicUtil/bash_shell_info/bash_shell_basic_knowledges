@@ -195,3 +195,23 @@ Compound Commands
        causes the file whose name is the expansion of word to be opened for both reading and writing on file descriptor n, or on file descriptor 0 if n is not specified.  If the file does not exist, it is created.
 
 
+7. Shell "{}" usage, same as the Hadoop Path schema
+$ mkdir -p src/java/{main,test}/com/myhp/wordcount/v{1,2,3}
+$ tree src/
+src/
+└── java
+    ├── main
+    │   └── com
+    │       └── myhp
+    │           └── wordcount
+    │               ├── v1
+    │               ├── v2
+    │               └── v3
+    └── test
+        └── com
+            └── myhp
+                └── wordcount
+                    ├── v1
+                    ├── v2
+                    └── v3
+
