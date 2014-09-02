@@ -167,3 +167,12 @@ It is invoked in MapRunner.java, and the following method call the Mapper Class'
     }
   }
 
+
+<property>
+  <name>mapred.min.split.size</name>
+  <value>0</value>
+  <description>The minimum size chunk that map input should be split
+  into.  Note that some file formats may have minimum split sizes that
+  take priority over this setting.</description>
+</property>
+
