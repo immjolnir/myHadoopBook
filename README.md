@@ -125,3 +125,5 @@ http://jasperproject.github.io/
 http://www.ppurl.com/?s=jasperReport
 http://baike.baidu.com/link?url=lhVfSRms77elAK9raOYPt9yzePc34ksVjST8s41hg-MIFnG2fmq_ktRICPK0QEwD
 
+Split the override code into there discreet segments there, and embeded them in the drone's thrasponder signal. Almost impossbile to spot, unless you're me.
+

@@ -268,3 +268,53 @@ e.g
 -   runCommand:
      - command: for i in 20130310{00..23}; do hadoop fs -mkdir ${warehouse_base}/ywa_input/$i; hadoop fs -put  ${qe_installation_base}/var/test_data/${qe_config}/input/set_daily_1/ywa/2013031000/* ${warehouse_base}/ywa_input/$i;
 
+
+$ for j in {1..100}; do for i in {A..Z} '\r'; do echo -n -e $i >> filesize; done done
+In linux, '\r' is used to seperate lines.
+
+The Pattern Match usage is given by the bash manual:
+
+       [[ expression ]]
+              Return a status of 0 or 1 depending on the evaluation of the conditional expression expression.  Expressions  are  composed  of  the
+              primaries  described  below  under  CONDITIONAL  EXPRESSIONS.   Word splitting and pathname expansion are not performed on the words
+              between the [[ and ]]; tilde expansion, parameter and variable expansion, arithmetic expansion, command substitution,  process  sub‐
+              stitution, and quote removal are performed.  Conditional operators such as -f must be unquoted to be recognized as primaries.
+
+              When used with [[, the < and > operators sort lexicographically using the current locale.
+
+              When  the == and != operators are used, the string to the right of the operator is considered a pattern and matched according to the
+              rules described below under Pattern Matching.  If the shell option nocasematch is enabled, the match is performed without regard  to
+              the  case of alphabetic characters.  The return value is 0 if the string matches (==) or does not match (!=) the pattern, and 1 oth‐
+              erwise.  Any part of the pattern may be quoted to force it to be matched as a string.
+
+              An additional binary operator, =~, is available, with the same precedence as == and !=.  When it is used, the string to the right of
+              the  operator  is  considered an extended regular expression and matched accordingly (as in regex(3)).  The return value is 0 if the
+              string matches the pattern, and 1 otherwise.  If the regular expression is syntactically  incorrect,  the  conditional  expression's
+              return  value  is  2.   If  the shell option nocasematch is enabled, the match is performed without regard to the case of alphabetic
+              characters.  Any part of the pattern may be quoted to force it to be matched as a string.  Substrings matched by parenthesized  sub‐
+              expressions within the regular expression are saved in the array variable BASH_REMATCH.  The element of BASH_REMATCH with index 0 is
+              the portion of the string matching the entire regular expression.  The element of BASH_REMATCH with index n is the  portion  of  the
+              string matching the nth parenthesized subexpression.
+              Expressions may be combined using the following operators, listed in decreasing order of precedence:
+
+              ( expression )
+                     Returns the value of expression.  This may be used to override the normal precedence of operators.
+              ! expression
+                     True if expression is false.
+              expression1 && expression2
+                     True if both expression1 and expression2 are true.
+              expression1 || expression2
+                     True if either expression1 or expression2 is true.
+
+              The  &&  and || operators do not evaluate expression2 if the value of expression1 is sufficient to determine the return value of the
+              entire conditional expression.
+
+e.g: BASH_REMATCH usage
+sh -x BASH_REMATCH.patternMatch.sh
+hadoop_version_re="^([[:digit:]]+)\.([[:digit:]]+)(\.([[:digit:]]+))?.*$"
+
+if [[ "$HADOOP_VERSION" =~ $hadoop_version_re ]]; then
+    hadoop_major_ver=${BASH_REMATCH[1]}
+    hadoop_minor_ver=${BASH_REMATCH[2]}
+    hadoop_patch_ver=${BASH_REMATCH[4]}
+

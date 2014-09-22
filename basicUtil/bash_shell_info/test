@@ -45,3 +45,15 @@ e.g
 abf2xml
 abf2xml
 runData2Xml abf2xml
+
+
+$ man true
+       true [ignored command line arguments]
+       true OPTION
+       Exit with a status code indicating success.
+it is An command in bash shell. $(true 'fk') returns 0 to indicate it success to run rather 1, such way can ignore an command run status.
+it can worked with while, if. e.g
+while true; do echo 1; break; done
+if test true; then echo "success"; fi
+
+Same as the false command

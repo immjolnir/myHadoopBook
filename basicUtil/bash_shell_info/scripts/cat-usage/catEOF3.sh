@@ -8,3 +8,5 @@ cat << EOF | cat > package-info.java
                          srcChecksum="SRCCHECKSUM")
 package org.apache.flume;
 EOF
+
+# By this way, the file package-info.java will be created
